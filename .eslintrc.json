@@ -1,23 +1,14 @@
 {
-    "extends": [
-        "eslint:recommended",
-        "plugin:react/recommended",
-        "plugin:prettier/recommended"
-    ],
-    "plugins": ["react", "prettier"],
-    "parserOptions": {
-        "ecmaVersion": 2020,
-        "sourceType": "module",
-        "ecmaFeatures": {
-            "jsx": true
-        }
-    },
-    "rules": {
-        "prettier/prettier": "error"
-    },
-    "settings": {
-        "react": {
-            "version": "detect"
-        }
-    }
+  "extends": ["react-app", "react-app/jest", "prettier"],
+  "rules": {
+    "semi": ["error", "always"],
+    "eqeqeq": "error",
+    "quotes": ["error", "double"],
+    "no-console": "warn",
+    "no-const-assign": "error",
+    "no-debugger": "error",
+    "no-duplicate-imports": "error",
+    "arrow-spacing": "warn",
+    "comma-spacing": ["error", { "before": false, "after": true }]
+  }
 }
