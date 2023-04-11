@@ -18,17 +18,24 @@ const App = () => {
     ) {
       auth.signinRedirect({ state: { location: window.location.toString() } });
     }
-  }, [auth, auth.isAuthenticated, auth.activeNavigator, auth.isLoading, auth.signinRedirect]);
+  }, [
+    auth,
+    auth.isAuthenticated,
+    auth.activeNavigator,
+    auth.isLoading,
+    auth.signinRedirect
+  ]);
 
   return (
-    !(auth.isLoading || auth.activeNavigator) && auth.isAuthenticated && (
+    !(auth.isLoading || auth.activeNavigator) &&
+    auth.isAuthenticated && (
       <div>
         <AuthContext.Provider value={auth}>
-          <Layout />
+            <Layout />
         </AuthContext.Provider>
       </div>
     )
-    );
+  );
 };
 
 export default App;
