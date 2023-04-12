@@ -9,7 +9,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { reduxStore } from "./Store/ReduxStore";
-import Screen1 from "./Screens/Screen1";
+import HomePage from "./Screens/Home/HomePage";
 import Screen2 from "./Screens/Screen2";
 
 const onSigninCallback = (user) => {
@@ -39,10 +39,10 @@ root.render(
       <AuthProvider {...oidcConfig}>
         <BrowserRouter>
           <Routes>
-            <Route path="" element={<Navigate to="/screen1" />} />
+            <Route path="" element={<Navigate to="/home" />} />
             <Route path="/" element={<App />}>
               <Route path="oauth-callback" element={<App />} />
-              <Route path="screen1" element={<Screen1 />} />
+              <Route path="home" element={<HomePage />} />
               <Route path="screen2" element={<Screen2 />} />
             </Route>
           </Routes>
