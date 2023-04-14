@@ -5,6 +5,9 @@ import { DateRangePicker } from "@mui/x-date-pickers-pro/DateRangePicker";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
+import FormControl from "@mui/material/FormControl";
+import { SingleInputDateRangeField } from "@mui/x-date-pickers-pro/SingleInputDateRangeField";
+import css from "./HomePageSearchBar.module.css";
 
 const HomePageSearchBar = () => {
   const [guidedTripFilter, setGuidedTripFilter] = useState(false);
@@ -14,12 +17,15 @@ const HomePageSearchBar = () => {
   };
 
   return (
-    <form>
+    <form className="border rounded py-4 px-5 me-5">
       <div className="row">
-        <div className="col-2">
+        <div
+          className={`${css.flexGridAdditionalStyles} col-12 col-md-4 col-lg-2`}
+        >
           <TextField
             id="locationInput"
             label="Location"
+            className="w-100"
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -30,12 +36,24 @@ const HomePageSearchBar = () => {
             variant="outlined"
           />
         </div>
-        <div className="col-4">
-          <DateRangePicker
-            localeText={{ start: "Check-in", end: "Check-out" }}
-          />
+        <div
+          className={`${css.flexGridAdditionalStyles} col-12 col-md-8 col-lg-4`}
+        >
+          <FormControl variant="outlined" fullWidth>
+            <InputLabel
+              htmlFor="reservation-dates"
+              shrink
+              sx={{ backgroundColor: "white", px: 1 }}
+            >
+              Reservation Dates
+            </InputLabel>
+            <DateRangePicker
+              slots={{ field: SingleInputDateRangeField }}
+              id="reservation-dates"
+            />
+          </FormControl>
         </div>
-        <div className="col-2">
+        <div className="col-4 col-md-4 col-lg-2">
           <TextField
             id="numberOfGuestsInput"
             label="Number of Guests"
@@ -49,7 +67,7 @@ const HomePageSearchBar = () => {
             variant="outlined"
           />
         </div>
-        <div className="col-2">
+        <div className="col-4 col-md-4 col-lg-2">
           <TextField
             id="activityTypeInput"
             label="Activity Type"
@@ -63,18 +81,22 @@ const HomePageSearchBar = () => {
             variant="outlined"
           />
         </div>
-        <div className="col-2">
-          <InputLabel id="guidedTripFilterSelectLabel">Guided Trip</InputLabel>
-          <Select
-            labelId="guidedTripFilterSelectLabel"
-            id="guidedTripFilterSelect"
-            value={guidedTripFilter}
-            label="Guided Trip"
-            onChange={(e) => handleGuidedFilterChange(e.target.value)}
-          >
-            <MenuItem value={false}>No</MenuItem>
-            <MenuItem value={true}>Yes</MenuItem>
-          </Select>
+        <div className="col-4 col-md-4 col-lg-2">
+          <FormControl fullWidth>
+            <InputLabel id="guidedTripFilterSelectLabel">
+              Guided Trip
+            </InputLabel>
+            <Select
+              labelId="guidedTripFilterSelectLabel"
+              id="guidedTripFilterSelect"
+              value={guidedTripFilter}
+              label="Guided Trip"
+              onChange={(e) => handleGuidedFilterChange(e.target.value)}
+            >
+              <MenuItem value={false}>No</MenuItem>
+              <MenuItem value={true}>Yes</MenuItem>
+            </Select>
+          </FormControl>
         </div>
       </div>
     </form>

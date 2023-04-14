@@ -1,0 +1,9 @@
+.flexGridAdditionalStyles {
+    margin-bottom: 0%;
+}
+
+@media (max-width: 992px) {
+  .flexGridAdditionalStyles {
+    margin-bottom: 5%;
+  }
+}
