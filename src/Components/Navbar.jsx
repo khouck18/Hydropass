@@ -17,7 +17,7 @@ const Navbar = () => {
       </div>
       <div className="col-5 col-md-4 col-lg-3">
         <Link
-          to="/host-my-listings"
+          to="/host"
           className="text-primary text-decoration-none fs-4"
         >
           Become a Host
