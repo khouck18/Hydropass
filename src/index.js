@@ -10,8 +10,8 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { reduxStore } from "./Store/ReduxStore";
 import HomePage from "./Screens/Home/HomePage";
-import Screen2 from "./Screens/Screen2";
 import Host from "./Screens/Host/Host";
+import CreateListing from "./Screens/Host/CreateListing";
 
 const onSigninCallback = (user) => {
   const previousLocation = user.state?.location || "/";
@@ -45,7 +45,7 @@ root.render(
               <Route path="oauth-callback" element={<App />} />
               <Route path="home" element={<HomePage />} />
               <Route path="host" element={<Host />} />
-              <Route path="screen2" element={<Screen2 />} />
+              <Route path="createListing" element={<CreateListing />} />
             </Route>
           </Routes>
         </BrowserRouter>
