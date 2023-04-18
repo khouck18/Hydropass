@@ -1,0 +1,13 @@
+/*
+.containerAlignment {
+    margin-top: 20vh;
+    margin-left: 15vw;
+}
+
+.spacerHomePage {
+    margin-top: 20%;
+}*/
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
