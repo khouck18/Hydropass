@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
-    <div className="row mt-4 ms-lg-3">
+    <div className="row mt-4 ms-lg-3 bg-transparent">
       <div className="col-12 col-md-2 col-lg-2 me-3">
         <Link to="/home">
           <img src={Logo} alt="Hydropass Logo" className="w-100" />

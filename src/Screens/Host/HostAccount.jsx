@@ -21,7 +21,6 @@ const HostAccount = () => {
 
   const postAccountInformation = async () => {
     const response = await ApiPOST(`${apiBaseUrl}/users`, auth.user, accountInformation);
-    console.log(response);
   };
 
   return (

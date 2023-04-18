@@ -5,10 +5,6 @@ const HomeTemplate = (props) => {
   return (
     <div
       className={css.containerAlignment}
-      style={{
-        backgroundImage: `url(${props.backgroundImage})`,
-        backgroundSize: "cover"
-      }}
     >
       <h1>{props.title}</h1>
       <h3>{props.subHeader}</h3>
