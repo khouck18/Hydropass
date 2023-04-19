@@ -1,5 +1,5 @@
 import css from "./ExploreTemplate.module.css";
-import HorizontalScrollView from "../../Components/ExplorePage/HorizontalScrollView";
+//import HorizontalScrollView from "../../Components/ExplorePage/HorizontalScrollView";
 const ExploreTemplate = (props) => {
   return (
     <div
