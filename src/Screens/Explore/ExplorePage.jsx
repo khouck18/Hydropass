@@ -8,17 +8,27 @@ import Lakes from "../../Images/Lakes.jpg";
 import Rivers from "../../Images/Rivers.jpg";
 import Beaches from "../../Images/Beaches.jpg";
 import { current } from "@reduxjs/toolkit";
+import { ClassNames } from "@emotion/react";
 
 function ExplorePage() {
   const photos = [
     {
-      url: Lakes
+      url: Lakes,
+      location: "Location: Lake",
+      Price: "$$",
+      Ratings: "4.4"
     },
     {
-      url: Rivers
+      url: Rivers,
+      location: "Location: River",
+      Price: "$$",
+      Ratings: "4.4"
     },
     {
-      url: Beaches
+      url: Beaches,
+      location: "Location: Beach",
+      Price: "$$",
+      Ratings: "4.4"
     }
 ];
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -53,26 +63,24 @@ function ExplorePage() {
 
   };
   return (
-    <div className="relative">
-      <div className="absolute left-0 blur-md rounded-2xl bg-center bg-cover duration-1000 brightness-50 max-w h-[1000px] w-full m-auto" style={{backgroundImage: `url(${photos[currentIndex].url})`}}></div>
+<div className="relative h-screen">
+      <div className="left-0 top-0 blur-md rounded-2xl bg-center bg-cover duration-1000 brightness-50 max-w h-3/4 w-full m-auto" style={{backgroundImage: `url(${photos[currentIndex].url})`}}></div>
       <div className="group">
-        <div className="group-hover:block absolute top-[50%] translate-x-0 translate-y-[-50%] left-5 text-2xl rounded-ful p-2 bg-black/20 text-white cursor-pointer">
+        <div className="absolute group-hover:block top-1/2 translate-x-0 translate-y-[-50%] left-5 text-2xl rounded-ful p-2 bg-black/20 text-white cursor-pointer">
           <BsChevronLeft onClick={prevSlide} size={45} />
         </div>
-        <div className="group-hover:block absolute top-[50%] translate-x-0 translate-y-[-50%] right-5 text-2xl rounded-ful p-2 bg-black/20 text-white cursor-pointer">
+        <div className="absolute group-hover:block top-1/2 translate-x-0 translate-y-[-50%] right-5 text-2xl rounded-ful p-2 bg-black/20 text-white cursor-pointer">
           <BsChevronRight onClick={nextSlide} size={45}/>
         </div>
       </div>
-        <div className="max-w-[80%] h-[780px] w-full m-auto py-16 px-4 relative group grid grid-cols-3">
-            
-            <div style={{backgroundImage: `url(${photos[getPreviousIndex(currentIndex)].url})`}} className="w-full h-full rounded-2xl bg-center bg-cover duration-1000 -mx-32 brightness-50 scale-75 my-12"> </div>
-            <div style={{backgroundImage: `url(${photos[currentIndex].url})`}} className="w-full h-full rounded-2xl bg-center bg-cover duration-1000 scale-100 "> </div>
-            <div style={{backgroundImage: `url(${photos[getNextIndex(currentIndex)].url})`}} className="w-full h-full rounded-2xl bg-center bg-cover duration-1000 mx-32 brightness-50 scale-90 my-12 skew-y-6 skew-x-3"> </div>
-        </div>
 
+
+      <div className="group max-w-[80%] h-[780px] w-full m-auto flex flex-row flex-wrap lg:justify-between justify-between mx-auto inset-0 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ">
+        <div style={{backgroundImage: `url(${photos[getPreviousIndex(currentIndex)].url})`}} className="w-full h-full rounded-2xl bg-center bg-cover duration-1000 brightness-50 scale-75 items-center justify-center left-0 transform -translate-x-3/4 lg:w-1/3" > </div>
+        <div style={{backgroundImage: `url(${photos[currentIndex].url})`}} className="w-full h-full rounded-2xl bg-cover duration-1000 scale-110 items-center justify-center lg:w-1/3"> </div>
+        <div style={{backgroundImage: `url(${photos[getNextIndex(currentIndex)].url})`}} className="w-full h-full rounded-2xl bg-center bg-cover duration-1000 brightness-50 scale-75 items-center justify-center right-0 transform translate-x-full lg:w-1/3"> </div>
+      </div>
     </div>
-    
-
   );
 };
 
@@ -80,6 +88,26 @@ export default ExplorePage;
 
 /*
 -skew-y-6 my-12 -mx-32
+
+
+    <div className="relative">
+      <div className="left-0 top-0 blur-md rounded-2xl bg-center bg-cover duration-1000 brightness-50 max-w h-[1000px] w-full m-auto" style={{backgroundImage: `url(${photos[currentIndex].url})`}}></div>
+      <div className="group">
+        <div className="absolute group-hover:block top-1/2 translate-x-0 translate-y-[-50%] left-5 text-2xl rounded-ful p-2 bg-black/20 text-white cursor-pointer">
+          <BsChevronLeft onClick={prevSlide} size={45} />
+        </div>
+        <div className="absolute group-hover:block top-1/2 translate-x-0 translate-y-[-50%] right-5 text-2xl rounded-ful p-2 bg-black/20 text-white cursor-pointer">
+          <BsChevronRight onClick={nextSlide} size={45}/>
+        </div>
+      </div>
+
+
+      <div className="group max-w-[80%] h-[780px] w-full m-auto flex flex-row flex-wrap lg:justify-between justify-between mx-auto inset-0 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ">
+        <div style={{backgroundImage: `url(${photos[getPreviousIndex(currentIndex)].url})`}} className="w-full h-full rounded-2xl bg-center bg-cover duration-1000 brightness-50 scale-75 items-center justify-center left-0 transform -translate-x-3/4 lg:w-1/3" > </div>
+        <div style={{backgroundImage: `url(${photos[currentIndex].url})`}} className="w-full h-full rounded-2xl bg-cover duration-1000 scale-110 items-center justify-center lg:w-1/3"> </div>
+        <div style={{backgroundImage: `url(${photos[getNextIndex(currentIndex)].url})`}} className="w-full h-full rounded-2xl bg-center bg-cover duration-1000 brightness-50 scale-75 items-center justify-center right-0 transform translate-x-full lg:w-1/3"> </div>
+      </div>
+    </div>
 
 skew-y-6 my-12 mx-32 
 */
