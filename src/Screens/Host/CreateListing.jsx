@@ -59,7 +59,7 @@ const CreateListing = () => {
     selectedActivities: [],
     maximumGuests: 0
   });
-  const [files, setFiles] = useState([]);
+  const [imageNames, setImageNames] = useState([]);
   const [selectedActivities, setSelectedActivities] = useState([]);
   const availableActivityTypes = [
     "Fishing",
@@ -85,13 +85,6 @@ const CreateListing = () => {
   const onDrop = useCallback(
     (acceptedFiles) => {
       const fileNames = [];
-      acceptedFiles.forEach((file) => {
-        fileNames.push(file.name);
-      });
-      setCreateListingInformation({
-        ...createListingInformation,
-        listingImages: fileNames
-      });
 
       acceptedFiles.forEach((file) => {
         const reader = new FileReader();
@@ -100,14 +93,23 @@ const CreateListing = () => {
         reader.onerror = () => console.log("file reading has failed");
         reader.onload = () => {
           // Do whatever you want with the file contents
-          const binaryStr = reader.result;
-          console.log(binaryStr);
+          const base64 = btoa(
+            new Uint8Array(reader.result).reduce(
+              (data, byte) => data + String.fromCharCode(byte),
+              ""
+            )
+          );
+          fileNames.push(base64);
         };
         reader.readAsArrayBuffer(file);
       });
-      setFiles([...files, ...acceptedFiles]);
+      setImageNames([...imageNames, ...acceptedFiles]);
+      setCreateListingInformation({
+        ...createListingInformation,
+        listingImages: fileNames
+      });
     },
-    [files]
+    [createListingInformation, imageNames]
   );
 
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
@@ -117,6 +119,7 @@ const CreateListing = () => {
       ...createListingInformation,
       [fieldName]: updatedValue
     });
+    console.log(createListingInformation);
   };
 
   return (
@@ -269,8 +272,8 @@ const CreateListing = () => {
           <div className="col-9">
             <h5>Uploaded Files</h5>
             <ul>
-              {files.map((file, index) => (
-                <li key={index}>{file.name}</li>
+              {imageNames.map((image, index) => (
+                <li key={index}>{image.name}</li>
               ))}
             </ul>
           </div>
