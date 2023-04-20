@@ -1,20 +1,19 @@
 import Axios from "axios";
 
 export const ApiGET = async (url, user) => {
-  Axios({
-    method: "get",
-    url,
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: user.access_token
-    }
-  })
-    .then((response) => {
-      return response.data;
-    })
-    .catch((error) => {
-      return error;
+  try {
+    const response = await Axios({
+      method: "get",
+      url,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: user.access_token
+      }
     });
+    return response.data;
+  } catch (err) {
+    return err;
+  }
 };
 
 export const ApiPOST = async (url, user, inputData) => {

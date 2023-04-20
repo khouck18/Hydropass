@@ -17,7 +17,7 @@ const HomePageSearchBar = () => {
   };
 
   return (
-    <form className="border rounded py-4 px-5 me-5">
+    <form className={`${css.glassBackground} border rounded py-4 px-5 me-5`}>
       <div className="row">
         <div
           className={`${css.flexGridAdditionalStyles} col-12 col-md-4 col-lg-2`}
@@ -25,7 +25,8 @@ const HomePageSearchBar = () => {
           <TextField
             id="locationInput"
             label="Location"
-            className="w-100"
+            className={`${css.input} w-100`}
+            variant="outlined"
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -33,7 +34,6 @@ const HomePageSearchBar = () => {
                 </InputAdornment>
               )
             }}
-            variant="outlined"
           />
         </div>
         <div
@@ -43,7 +43,6 @@ const HomePageSearchBar = () => {
             <InputLabel
               htmlFor="reservation-dates"
               shrink
-              sx={{ backgroundColor: "white", px: 1 }}
             >
               Reservation Dates
             </InputLabel>
