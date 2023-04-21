@@ -1,4 +1,3 @@
-import Navbar from "../../Components/Navbar";
 import React, { useState } from "react";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 import { AiFillStar } from "react-icons/ai";

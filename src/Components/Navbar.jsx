@@ -1,11 +1,19 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import Logo from "../Images/logo_transparency.png";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
+  const [sticky, setSticky] = useState(false);
+  useEffect(() => {
+    const handleScroll = () => {
+      setSticky(window.scrollY > 200);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return ()=> window.removeEventListener("scroll", handleScroll);
+  });
   return (
-    <div className="row mt-4 ms-lg-3 bg-transparent">
-      <div className="col-12 col-md-2 col-lg-2 me-3">
+    <div className={`row mt-4 ms-lg-3 bg-transparent sticky top-0 ${sticky ? "sticky" : ""}`}>
+      <div className="col-12 col-md-2 col-lg-2 me-3 ">
         <Link to="/home">
           <img src={Logo} alt="Hydropass Logo" className="w-100" />
         </Link>
