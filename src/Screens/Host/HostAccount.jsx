@@ -1,26 +1,24 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import FormControl from "@mui/material/FormControl";
 import TextField from "@mui/material/TextField";
-import { ApiPOST } from "../../Utils/axiosRequests";
+import { useDispatch, useSelector } from "react-redux";
+import { hostActions } from "./HostSlice";
+import { PostNewHost } from "./HostActions";
 import AuthContext from "../../Contexts/AuthContext";
 
 const HostAccount = () => {
   const auth = useContext(AuthContext);
+  const dispatch = useDispatch();
   const apiBaseUrl = `${process.env.REACT_APP_API_URL}`;
-  const [accountInformation, setAccountInformation] = useState({
-    firstName: "",
-    lastName: "",
-    streetAddress: "",
-    cityAddress: "",
-    zipCodeAddress: ""
-  });
+
+  const hostAccountInformation = useSelector((state) => state.host.hostInformation);
 
   const updateAccountInformation = (fieldName, updatedValue) => {
-    setAccountInformation({ ...accountInformation, [fieldName]: updatedValue });
+    dispatch(hostActions.updateHostInformation({fieldName, value: updatedValue}));
   };
 
   const postAccountInformation = async () => {
-    const response = await ApiPOST(`${apiBaseUrl}/users`, auth.user, accountInformation);
+    dispatch(PostNewHost({apiBaseUrl, auth, hostAccountInformation}));
   };
 
   return (

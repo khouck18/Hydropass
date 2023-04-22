@@ -16,21 +16,19 @@ export const ApiGET = async (url, user) => {
   }
 };
 
-export const ApiPOST = async (url, user, inputData) => {
-    Axios({
+export const ApiPOST = async (url, auth, inputData) => {
+  try {
+    const response = await Axios({
       method: "post",
       url,
       data: JSON.stringify(inputData),
       headers: {
         "Content-Type": "application/json",
-        Authorization: user.access_token
+        Authorization: auth.user.access_token
       }
-    })
-      .then((response) => {
-        console.log("FFs", response.data);
-        return response.data;
-      })
-      .catch((error) => {
-        return error;
-      });
-  };
+    });
+    return response.data;
+  } catch (err) {
+    return err;
+  }
+};
