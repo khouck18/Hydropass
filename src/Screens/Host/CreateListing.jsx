@@ -22,7 +22,9 @@ import {
 } from "@mui/icons-material";
 import { useDropzone } from "react-dropzone";
 import { useTheme } from "@mui/material/styles";
-import { ApiPOST } from "../../Utils/axiosRequests";
+import { useDispatch, useSelector } from "react-redux";
+import { hostActions } from "./HostSlice";
+import { PostNewListing } from "./HostActions";
 import AuthContext from "../../Contexts/AuthContext";
 
 const ITEM_HEIGHT = 48;
@@ -48,19 +50,10 @@ const getStyles = (name, activityType, theme) => {
 const CreateListing = () => {
   const auth = useContext(AuthContext);
   const apiBaseUrl = `${process.env.REACT_APP_API_URL}`;
+  const dispatch = useDispatch();
   const theme = useTheme();
-  const [createListingInformation, setCreateListingInformation] = useState({
-    listingImages: [],
-    propertyName: "",
-    propertyAddress: "",
-    dailyRate: 0,
-    propertyDescription: "",
-    propertyRules: "",
-    selectedActivities: [],
-    maximumGuests: 0
-  });
+  const createListingInformation = useSelector((state) => state.host.createListingInformation);
   const [imageNames, setImageNames] = useState([]);
-  const [selectedActivities, setSelectedActivities] = useState([]);
   const availableActivityTypes = [
     "Fishing",
     "Rafting",
@@ -75,11 +68,7 @@ const CreateListing = () => {
   ];
 
   const postNewListing = async () => {
-    const response = await ApiPOST(
-      `${apiBaseUrl}/listings`,
-      auth.user,
-      createListingInformation
-    );
+    dispatch(PostNewListing({apiBaseUrl, auth, createListingInformation}));
   };
 
   const onDrop = useCallback(
@@ -92,7 +81,6 @@ const CreateListing = () => {
         reader.onabort = () => console.log("file reading was aborted");
         reader.onerror = () => console.log("file reading has failed");
         reader.onload = () => {
-          // Do whatever you want with the file contents
           const base64 = btoa(
             new Uint8Array(reader.result).reduce(
               (data, byte) => data + String.fromCharCode(byte),
@@ -100,26 +88,22 @@ const CreateListing = () => {
             )
           );
           fileNames.push(base64);
+          
+          if(fileNames.length === acceptedFiles.length){
+            setImageNames([...imageNames, ...acceptedFiles]);
+            dispatch(hostActions.updateCreateListingInformation({fieldName: "listingImages", value: fileNames}));
+          }
         };
         reader.readAsArrayBuffer(file);
       });
-      setImageNames([...imageNames, ...acceptedFiles]);
-      setCreateListingInformation({
-        ...createListingInformation,
-        listingImages: fileNames
-      });
     },
-    [createListingInformation, imageNames]
+    [dispatch, imageNames]
   );
 
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
   const updateCreateListingInformation = (fieldName, updatedValue) => {
-    setCreateListingInformation({
-      ...createListingInformation,
-      [fieldName]: updatedValue
-    });
-    console.log(createListingInformation);
+    dispatch(hostActions.updateCreateListingInformation({fieldName, value: updatedValue}));
   };
 
   return (
@@ -250,7 +234,7 @@ const CreateListing = () => {
                   <MenuItem
                     key={name}
                     value={name}
-                    style={getStyles(name, selectedActivities, theme)}
+                    style={getStyles(name, createListingInformation.selectedActivities, theme)}
                   >
                     {name}
                   </MenuItem>
