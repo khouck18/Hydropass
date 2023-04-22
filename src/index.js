@@ -12,6 +12,7 @@ import { reduxStore } from "./Store/ReduxStore";
 import HomePage from "./Screens/Home/HomePage";
 import Host from "./Screens/Host/Host";
 import CreateListing from "./Screens/Host/CreateListing";
+import Explore from "./Screens/Explore/ExplorePage";
 
 const onSigninCallback = (user) => {
   const previousLocation = user.state?.location || "/";
@@ -44,6 +45,7 @@ root.render(
             <Route path="/" element={<App />}>
               <Route path="oauth-callback" element={<App />} />
               <Route path="home" element={<HomePage />} />
+              <Route path="explore" element = {<Explore />} />
               <Route path="host" element={<Host />} />
               <Route path="createListing" element={<CreateListing />} />
             </Route>
