@@ -7,6 +7,30 @@
     margin-top: 20%;
 }
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+.blurnround {
+    filter: blur(4px) brightness(50%);
+    border-radius: 25px;
+  }
+
+.nextbutton {
+  position: absolute;
+  top: 50%;
+  opacity: 0.5;
+  right: 0;
+  transition: opacity 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.nextbutton:hover {
+opacity: 1;
+}
+
+.innerphoto {
+    grid-row: auto;
+    position: absolute;
+    top: 1/2;
+    left: 1/2;
+    transform: translateX(1/2);
+    transform: translateY(1/2);
+    height: 3/5;
+}

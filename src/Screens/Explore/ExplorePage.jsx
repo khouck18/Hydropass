@@ -9,7 +9,7 @@ import Lakes from "../../Images/Lakes.jpg";
 import Rivers from "../../Images/Rivers.jpg";
 import Beaches from "../../Images/Beaches.jpg";
 import HomePageSearchBar from "../../Components/HomePageSearchBar";
-import css from "./ExploreTemplate.module.css";
+import temp from "./ExploreTemplate.module.css";
 
 function ExplorePage() {
   const photos = [
@@ -127,7 +127,108 @@ function ExplorePage() {
     }
   }
   return (
-    <div className={`h-screen w-100 ${css.containerAlignment}`}>
+    <div
+      style={{
+        position: "relative",
+        height: "60vh",
+        width: "100"
+      }}
+    >
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          backgroundImage: `url(${photos[currentIndex].images})`,
+          backgroundAttachment: "scroll",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+          transitionDuration: "1000ms"
+        }}
+        className={`${temp.blurnround}`}
+      ></div>
+      <div>
+        <div
+          style={{
+            left: 0,
+            width: "min-content"
+          }}
+          className={`${temp.nextbutton}`}
+        >
+          <BsChevronLeft onClick={prevSlide} size={45} color="white" />
+        </div>
+        <div className={`${temp.nextbutton}`}>
+          <BsChevronRight onClick={nextSlide} size={45} color="white" />
+        </div>
+      </div>
+
+      <div
+        //className={`${temp.innerphotos}`}
+        style={{
+          gridRow: "auto",
+          position: "absolute",
+          width: "100%",
+          height: "70%",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+        }}
+      >
+        <div style={{
+          backgroundImage: `url(${photos[getPreviousIndex].images})`,
+          height:"100%",
+          width:"35%",
+          transform: "translateX(85%)",
+          backgroundPosition: "center",
+          backgroundSize: "cover",
+        }}></div>
+
+        <div style={{
+          backgroundImage: `url(${photos[getNextIndex(currentIndex)].images})`,
+          height:"100%",
+          width:"35%",
+          transform: "translateX(85%)",
+          backgroundPosition: "center",
+          backgroundSize: "cover",
+        }}></div>
+
+        <div style={{
+          backgroundImage: `url(${photos[nextSlide(currentIndex)].images})`,
+          height:"100%",
+          width:"35%",
+          transform: "translateX(85%)",
+          backgroundPosition: "center",
+          backgroundSize: "cover",
+        }}></div>
+
+      </div>
+
+      {/* <div
+        //className={`${temp.innerphotos}`}
+        style={{
+          gridRow: "auto",
+          position: "absolute",
+          width: "100%",
+          backgroundImage: `url(${photos[currentIndex].images})`,
+          height: "60%",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+        }}
+      >HELLO!
+
+
+      </div> */}
+    </div>
+  );
+}
+
+export default ExplorePage;
+
+/*<div className={`h-screen w-100 ${css.containerAlignment}`}>
       <div className="relative h-4/5 justify-center">
         <div
           className="left-0 blur-md bg-center bg-cover duration-1000 h-full brightness-50 w-100 m-auto"
@@ -214,8 +315,4 @@ function ExplorePage() {
           );
         })}
       </div>
-    </div>
-  );
-}
-
-export default ExplorePage;
+    </div> */
