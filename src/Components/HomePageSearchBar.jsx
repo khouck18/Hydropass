@@ -1,6 +1,5 @@
 import { useState } from "react";
 import TextField from "@mui/material/TextField";
-import InputAdornment from "@mui/material/InputAdornment";
 import { DateRangePicker } from "@mui/x-date-pickers-pro/DateRangePicker";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -8,9 +7,82 @@ import Select from "@mui/material/Select";
 import FormControl from "@mui/material/FormControl";
 import { SingleInputDateRangeField } from "@mui/x-date-pickers-pro/SingleInputDateRangeField";
 import css from "./HomePageSearchBar.module.css";
+import styled from "styled-components";
+
+const StyledTextField = styled(TextField)`
+  && {
+    input {
+      color: white;
+    }
+
+    .MuiOutlinedInput-notchedOutline {
+      border-color: white;
+    }
+
+    &:hover .MuiOutlinedInput-notchedOutline {
+      border-color: white;
+    }
+
+    & .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+      border-color: white;
+    }
+  }
+`;
+
+const StyledDatePicker = styled(DateRangePicker)`
+  && {
+    input {
+      color: white;
+    }
+
+    .MuiOutlinedInput-notchedOutline {
+      border-color: white;
+    }
+
+    &:hover .MuiOutlinedInput-notchedOutline {
+      border-color: white;
+    }
+
+    & .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+      border-color: white;
+    }
+  }
+`;
+
+const StyledSelect = styled(Select)`
+  && {
+    input {
+      color: white;
+    }
+
+    .MuiOutlinedInput-notchedOutline {
+      border-color: white;
+    }
+
+    &:hover .MuiOutlinedInput-notchedOutline {
+      border-color: white;
+    }
+
+    && .MuiOutlinedInput-input {
+      color: white;
+    }
+    
+    & .MuiSvgIcon-root {
+      color: white;
+    }
+
+    
+    & .MuiInputLabel-shrink {
+      transform-origin: top left;
+      transform: translate(0, 1.5px) scale(0.75);
+      padding-right: 8px;
+    }
+  }
+`;
+
 
 const HomePageSearchBar = () => {
-  const [guidedTripFilter, setGuidedTripFilter] = useState(false);
+  const [guidedTripFilter, setGuidedTripFilter] = useState("");
 
   const handleGuidedFilterChange = (selectValue) => {
     setGuidedTripFilter(selectValue ? true : false);
@@ -22,79 +94,55 @@ const HomePageSearchBar = () => {
         <div
           className={`${css.flexGridAdditionalStyles} col-12 col-md-4 col-lg-2`}
         >
-          <TextField
+          <StyledTextField
             id="locationInput"
-            label="Location"
+            label={<div className="text-white"> <i className="bi bi-globe-americas" /> Location</div>}
             className={`${css.input} w-100`}
             variant="outlined"
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <i className="bi bi-globe-americas" />
-                </InputAdornment>
-              )
-            }}
           />
         </div>
         <div
           className={`${css.flexGridAdditionalStyles} col-12 col-md-8 col-lg-4`}
         >
           <FormControl variant="outlined" fullWidth>
-            <InputLabel
-              htmlFor="reservation-dates"
-              shrink
-            >
-              Reservation Dates
-            </InputLabel>
-            <DateRangePicker
+            <StyledDatePicker
+              label={<div className="text-white"><i className="bi bi-calendar-week" /> Reservation Dates</div>}
               slots={{ field: SingleInputDateRangeField }}
               id="reservation-dates"
             />
           </FormControl>
         </div>
         <div className="col-4 col-md-4 col-lg-2">
-          <TextField
+          <StyledTextField
             id="numberOfGuestsInput"
-            label="Number of Guests"
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <i className="bi bi-people-fill" />
-                </InputAdornment>
-              )
-            }}
+            label={<div className="text-white"><i className="bi bi-people-fill" /> Guests</div>}
             variant="outlined"
           />
         </div>
         <div className="col-4 col-md-4 col-lg-2">
-          <TextField
+          <StyledTextField
             id="activityTypeInput"
-            label="Activity Type"
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <i className="bi bi-droplet" />
-                </InputAdornment>
-              )
-            }}
+            label={<div className="text-white"><i className="bi bi-droplet" /> Activity Type</div>}
             variant="outlined"
           />
         </div>
         <div className="col-4 col-md-4 col-lg-2">
           <FormControl fullWidth>
-            <InputLabel id="guidedTripFilterSelectLabel">
-              Guided Trip
+            <InputLabel id="guidedTripFilterSelectLabel" className="text-white">
+            <i className="bi bi-person-fill-add" />{" "}
+              Guided
             </InputLabel>
-            <Select
+            <StyledSelect
               labelId="guidedTripFilterSelectLabel"
               id="guidedTripFilterSelect"
               value={guidedTripFilter}
               label="Guided Trip"
+              color="success"
               onChange={(e) => handleGuidedFilterChange(e.target.value)}
             >
               <MenuItem value={false}>No</MenuItem>
               <MenuItem value={true}>Yes</MenuItem>
-            </Select>
+            </StyledSelect>
           </FormControl>
         </div>
       </div>

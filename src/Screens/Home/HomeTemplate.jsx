@@ -11,7 +11,7 @@ const HomeTemplate = (props) => {
       <HomePageSearchBar />
       <h5 className={css.spacerHomePage}>{props.additionalInformation}</h5>
       <div className="border-top me-5 mb-5" />
-      <HomePageCarousel listOfActivities={props.listOfActivities} />
+      <HomePageCarousel title={props.title} listOfActivities={props.listOfActivities} />
     </div>
   );
 };
