@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
-import { AiFillStar } from "react-icons/ai";
+
 import { MdExplore } from "react-icons/md";
 import { RxDotFilled } from "react-icons/rx";
 import "../../index.css";
@@ -10,6 +10,7 @@ import Rivers from "../../Images/Rivers.jpg";
 import Beaches from "../../Images/Beaches.jpg";
 import HomePageSearchBar from "../../Components/HomePageSearchBar";
 import temp from "./ExploreTemplate.module.css";
+import HorizontalListing from "./HorizontalListing";
 
 function ExplorePage() {
   const photos = [
@@ -127,102 +128,175 @@ function ExplorePage() {
     }
   }
   return (
-    <div
-      style={{
-        position: "relative",
-        height: "60vh",
-        width: "100"
-      }}
-    >
+    <div style={{
+      position: "relative",
+      height: "100vh",
+      width: "100"
+    }}>
       <div
         style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-          backgroundImage: `url(${photos[currentIndex].images})`,
-          backgroundAttachment: "scroll",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-          transitionDuration: "1000ms"
-        }}
-        className={`${temp.blurnround}`}
-      ></div>
-      <div>
-        <div
-          style={{
-            left: 0,
-            width: "min-content"
-          }}
-          className={`${temp.nextbutton}`}
-        >
-          <BsChevronLeft onClick={prevSlide} size={45} color="white" />
-        </div>
-        <div className={`${temp.nextbutton}`}>
-          <BsChevronRight onClick={nextSlide} size={45} color="white" />
-        </div>
-      </div>
-
-      <div
-        //className={`${temp.innerphotos}`}
-        style={{
-          gridRow: "auto",
-          position: "absolute",
-          width: "100%",
-          height: "70%",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
+          position: "relative",
+          height: "70vh",
+          width: "100"
         }}
       >
-        <div style={{
-          backgroundImage: `url(${photos[getPreviousIndex].images})`,
-          height:"100%",
-          width:"35%",
-          transform: "translateX(85%)",
-          backgroundPosition: "center",
-          backgroundSize: "cover",
-        }}></div>
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backgroundImage: `url(${photos[currentIndex].images})`,
+            backgroundAttachment: "scroll",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+            transitionDuration: "1000ms"
+          }}
+          className={`${temp.blurnround}`}
+        ></div>
+        <div>
+          <div
+            style={{
+              left: 0,
+              width: "min-content",
+              zIndex: 1
+            }}
+            className={`${temp.nextbutton}`}
+          >
+            <BsChevronLeft
+              style={{ backgroundColor: "rgba(0, 0, 0, 0.4)" }}
+              onClick={prevSlide}
+              size={45}
+              color="white"
+            />
+          </div>
+          <div className={`${temp.nextbutton}`} style={{ zIndex: 1 }}>
+            <BsChevronRight
+              style={{ backgroundColor: "rgba(0, 0, 0, 0.4)" }}
+              onClick={nextSlide}
+              size={45}
+              color="white"
+            />
+          </div>
+        </div>
 
-        <div style={{
+        <div
+          //className={`${temp.innerphotos}`}
+          style={{
+            position: "absolute",
+            gridRow: "auto",
+            width: "100%",
+            maxWidth: "100%",
+            height: "80%",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            overflowX: "hidden"
+          }}
+        >
+          <div
+            style={{
+              height: "60%",
+              maxWidth: "25%",
+              width: "20%",
+              backgroundImage: `url(${
+                photos[getPreviousIndex(currentIndex)].images
+              })`,
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "cover",
+              transform: "translateX(-70%) translateY(40%)",
+              borderRadius: "25px",
+              transitionDuration: "1000ms"
+            }}
+            className={`${temp.brightness}`}
+          />
+          <div
+            style={{
+              height: "100%",
+              width: "50%",
+              backgroundImage: `url(${photos[currentIndex].images})`,
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "cover",
+              borderRadius: "25px",
+              transitionDuration: "1000ms"
+            }}
+          />
+          <div
+            style={{
+              height: "60%",
+              width: "20%",
+              backgroundImage: `url(${
+                photos[getNextIndex(currentIndex)].images
+              })`,
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "cover",
+              transform: "translateX(70%) translateY(40%)",
+              borderRadius: "25px",
+              transitionDuration: "1000ms"
+            }}
+            className={`${temp.brightness}`}
+          />
+        </div>
+        <div
+          style={{
+            justifyContent: "center",
+            position: "absolute",
+            gridRow: "auto",
+            width: "50%",
+            height: "10%",
+            top: "90%",
+            left: "25%",
+            borderRadius: "25px"
+          }}
+        >
+          <div style={{}}>
+            <HorizontalListing
+              name={photos[currentIndex].Name}
+              location={photos[currentIndex].location}
+              rating={photos[currentIndex].Ratings}
+              dailyRate={photos[currentIndex].dailyRate}
+            />
+          </div>
+        </div>
+      </div>
+
+      <div
+        style={{
+
+          gridRow: "auto",
+          width: "100%",
+          height: "20%",
+          borderRadius: "25px",
           backgroundImage: `url(${photos[getNextIndex(currentIndex)].images})`,
-          height:"100%",
-          width:"35%",
-          transform: "translateX(85%)",
-          backgroundPosition: "center",
-          backgroundSize: "cover",
-        }}></div>
-
-        <div style={{
-          backgroundImage: `url(${photos[nextSlide(currentIndex)].images})`,
-          height:"100%",
-          width:"35%",
-          transform: "translateX(85%)",
-          backgroundPosition: "center",
-          backgroundSize: "cover",
-        }}></div>
+        }}
+      >
 
       </div>
 
-      {/* <div
-        //className={`${temp.innerphotos}`}
-        style={{
-          gridRow: "auto",
-          position: "absolute",
-          width: "100%",
-          backgroundImage: `url(${photos[currentIndex].images})`,
-          height: "60%",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-        }}
-      >HELLO!
-
-
-      </div> */}
+      <div
+      className={`${temp.gridContainer}`}>
+        {photos.map((listing) => {
+          return (
+            <ListingTemplate
+              location={listing.location}
+              dailyRate={listing.dailyRate}
+              image={listing.images}
+              ratings={listing.Ratings}
+              name={listing.Name}
+            />
+          );
+        })}
+      </div>
     </div>
+    
   );
 }
 

@@ -12,6 +12,10 @@
     border-radius: 25px;
   }
 
+.brightness {
+  filter: brightness(50%);
+}
+
 .nextbutton {
   position: absolute;
   top: 50%;
@@ -33,4 +37,11 @@ opacity: 1;
     transform: translateX(1/2);
     transform: translateY(1/2);
     height: 3/5;
+}
+
+.gridContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-gap: 8px;
+  size: 24;
 }
