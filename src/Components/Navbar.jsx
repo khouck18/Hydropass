@@ -9,7 +9,7 @@ const Navbar = () => {
       setSticky(window.scrollY > 200);
     };
     window.addEventListener("scroll", handleScroll);
-    return ()=> window.removeEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   });
   return (
     <div className={`row mt-4 ms-lg-3 bg-transparent sticky top-0 ${sticky ? "sticky" : ""}`}>
