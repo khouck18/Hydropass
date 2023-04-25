@@ -3,7 +3,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Navigation } from "swiper";
-import css from "./HomePageCarousel.module.css";
+import Button from "@mui/material/Button";
 
 const HomePageCarousel = (props) => {
   const swiperId = `swiper-${props.title}`;
@@ -23,14 +23,16 @@ const HomePageCarousel = (props) => {
           <SwiperSlide key={activity.title}>
             <h3>{activity.title}</h3>
             <h5>{activity.description}</h5>
-            <button type="button" className={`${css.buttonStyles} mt-2 p-2`}>
+            <Button className="text-white" sx={{border: "2px solid white", "&:hover": {border: "2px solid white"}}} variant="outlined">
               {activity.buttonName}
-            </button>
-            </SwiperSlide>
+            </Button>
+          </SwiperSlide>
           ) : (
             <SwiperSlide key={activity.title}>
-              <h3 className="text-center">{activity.icon}</h3>
-              <h5 className="text-center">{activity.title}</h5>
+              <div class="d-flex justify-content-center">
+                <img width="60" height="60" src={activity.icon} alt={activity.title} />
+              </div>
+              <h5 class="text-center">{activity.title}</h5>
             </SwiperSlide>
           );
       })}

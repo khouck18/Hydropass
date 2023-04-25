@@ -1,28 +1,34 @@
 import React, { useState, useEffect } from "react";
 import HomeTemplate from "./HomeTemplate";
-import {
-  Kayaking,
-  Phishing,
-  DirectionsBoat,
-  Pool,
-  Kitesurfing,
-  Snowmobile,
-  Cottage,
-  Restaurant,
-  Surfing,
-  ScubaDiving
-} from "@mui/icons-material";
 import HydropassHome from "../../Images/HydropassHome.jpg";
 import Lakes from "../../Images/Lakes.jpg";
 import Rivers from "../../Images/Rivers.jpg";
 import Beaches from "../../Images/Beaches.jpg";
+import SurfboardFilled from "../../Images/SurfboardFilled.svg";
+import WaterSkisFilled from "../../Images/WaterSkisFilled.svg";
+import JetSkiFilled from "../../Images/JetSkiFilled.svg";
+import FishingPoleFilled from "../../Images/FishingPoleFilled.svg";
+import CanoeFilled from "../../Images/CanoeFilled.svg";
+import BoatFilled from "../../Images/BoatFilled.svg";
+import DockFilled from "../../Images/DockFilled.svg";
+import BeachFilled from "../../Images/BeachFilled.svg";
+import CabinFilled from "../../Images/CabinFilled.svg";
+import RaftFilled from "../../Images/RaftFilled.svg";
+import SwimmingFilled from "../../Images/SwimmingFilled.svg";
+import InnerTubeFilled from "../../Images/InnerTubeFilled.svg";
+import KayakFilled from "../../Images/KayakFilled.svg";
+import PaddleBoardFilled from "../../Images/PaddleBoardFilled.svg";
+import ScubaDivingFilled from "../../Images/ScubaDivingFilled.svg";
+import SailBoatFilled from "../../Images/SailBoatFilled.svg";
+import SnorkelingFilled from "../../Images/SnorkelingFilled.svg";
+import CampingFilled from "../../Images/CampingFilled.svg";
 
 const HomePage = () => {
   const hydropassHomeItems = [
     {
       title: "The Water Report",
       description:
-        "Blog posts for inspiration on your own adventures",
+        "Get inspiration for your adventures",
       buttonName: "Learn More"
     },
     {
@@ -39,106 +45,162 @@ const HomePage = () => {
 
   const hydropassLakeItems = [
     {
-      icon: <Kayaking sx={{ fontSize: 60 }} />,
-      title: "Canoeing"
+      icon: BeachFilled,
+      title: "Beaches"
     },
     {
-      icon: <Phishing sx={{ fontSize: 60 }} />,
-      title: "Fishing"
-    },
-    {
-      icon: <DirectionsBoat sx={{ fontSize: 60 }} />,
+      icon: BoatFilled,
       title: "Boating"
     },
     {
-      icon: <Pool sx={{ fontSize: 60 }} />,
-      title: "Swimming"
+      icon: CampingFilled,
+      title: "Camping"
     },
     {
-      icon: <Kitesurfing sx={{ fontSize: 60 }} />,
-      title: "Kitesurfing"
+      icon: CanoeFilled,
+      title: "Canoeing"
     },
     {
-      icon: <Snowmobile sx={{ fontSize: 60 }} />,
+      icon: DockFilled,
+      title: "Docks"
+    },
+    {
+      icon: FishingPoleFilled,
+      title: "Fishing"
+    },
+    {
+      icon: JetSkiFilled,
       title: "Jet Skiing"
     },
     {
-      icon: <Cottage sx={{ fontSize: 60 }} />,
-      title: "Overnight Stays"
+      icon: KayakFilled,
+      title: "Kayaking"
     },
     {
-      icon: <Restaurant sx={{ fontSize: 60 }} />,
-      title: "Dining"
+      icon: CabinFilled,
+      title: "Overnights"
+    },
+    {
+      icon: PaddleBoardFilled,
+      title: "Paddling"
+    },
+    {
+      icon: SwimmingFilled,
+      title: "Swimming"
+    },
+    {
+      icon: WaterSkisFilled,
+      title: "Water Skiing"
     }
   ];
 
   const hydropassRiverItems = [
     {
-      icon: <Kayaking sx={{ fontSize: 60 }} />,
-      title: "Canoeing"
-    },
-    {
-      icon: <Phishing sx={{ fontSize: 60 }} />,
-      title: "Fishing"
-    },
-    {
-      icon: <DirectionsBoat sx={{ fontSize: 60 }} />,
+      icon: BoatFilled,
       title: "Boating"
     },
     {
-      icon: <Pool sx={{ fontSize: 60 }} />,
+      icon: CampingFilled,
+      title: "Camping"
+    },
+    {
+      icon: CanoeFilled,
+      title: "Canoeing"
+    },
+    {
+      icon: DockFilled,
+      title: "Docks"
+    },
+    {
+      icon: FishingPoleFilled,
+      title: "Fishing"
+    },
+    {
+      icon: KayakFilled,
+      title: "Kayaking"
+    },
+    {
+      icon: CabinFilled,
+      title: "Overnights"
+    },
+    {
+      icon: PaddleBoardFilled,
+      title: "Paddling"
+    },
+    {
+      icon: RaftFilled,
+      title: "Rafting"
+    },
+    {
+      icon: SwimmingFilled,
       title: "Swimming"
     },
     {
-      icon: <Cottage sx={{ fontSize: 60 }} />,
-      title: "Overnight Stays"
+      icon: InnerTubeFilled,
+      title: "Tubing"
     },
-    {
-      icon: <Restaurant sx={{ fontSize: 60 }} />,
-      title: "Dining"
-    }
   ];
 
   const hydropassOceanItems = [
     {
-      icon: <Kayaking sx={{ fontSize: 60 }} />,
-      title: "Kayaking"
+      icon: BeachFilled,
+      title: "Beaches"
     },
     {
-      icon: <Surfing sx={{ fontSize: 60 }} />,
-      title: "Surfing"
-    },
-    {
-      icon: <ScubaDiving sx={{ fontSize: 60 }} />,
-      title: "Scuba Diving"
-    },
-    {
-      icon: <Phishing sx={{ fontSize: 60 }} />,
-      title: "Fishing"
-    },
-    {
-      icon: <DirectionsBoat sx={{ fontSize: 60 }} />,
+      icon: BoatFilled,
       title: "Boating"
     },
     {
-      icon: <Pool sx={{ fontSize: 60 }} />,
-      title: "Swimming"
+      icon: CampingFilled,
+      title: "Camping"
     },
     {
-      icon: <Kitesurfing sx={{ fontSize: 60 }} />,
-      title: "Kitesurfing"
+      icon: DockFilled,
+      title: "Docks"
     },
     {
-      icon: <Snowmobile sx={{ fontSize: 60 }} />,
+      icon: FishingPoleFilled,
+      title: "Fishing"
+    },
+    {
+      icon: JetSkiFilled,
       title: "Jet Skiing"
     },
     {
-      icon: <Cottage sx={{ fontSize: 60 }} />,
-      title: "Overnight Stays"
+      icon: KayakFilled,
+      title: "Kayaking"
     },
     {
-      icon: <Restaurant sx={{ fontSize: 60 }} />,
-      title: "Dining"
+      icon: CabinFilled,
+      title: "Overnights"
+    },
+    {
+      icon: PaddleBoardFilled,
+      title: "Paddling"
+    },
+    {
+      icon: SailBoatFilled,
+      title: "Sailing"
+    },
+    {
+      icon: ScubaDivingFilled,
+      title: "Scuba Diving"
+    },
+    {
+      icon: SnorkelingFilled,
+      title: "Snorkeling"
+    },
+    {
+      icon: SurfboardFilled,
+      title: "Surfing"
+    },
+    {
+      icon: SwimmingFilled,
+      title: "Swimming"
+    },
+    {
+      icon: WaterSkisFilled,
+      title: "Water Skiing"
     }
   ];
 
@@ -201,7 +263,7 @@ const HomePage = () => {
       <div style={{ position: "fixed", top: "50%", left: "5%", transform: "translateY(-50%)", zIndex: "1" }}>
         <div className="d-flex flex-column align-items-center">
           <svg width="30" height="30">
-            <circle cx="15" cy="15" r="14" fill="white" stroke="black" stroke-width="1"/>
+            <circle cx="15" cy="15" r="14" fill="white" stroke="black" strokeWidth="1"/>
           </svg>
           {[...Array(listOfPagesAndContents.length)].map((_, index) => (
             <svg key={index} className="mt-3" width="20" height="20" onClick={() => window.scrollTo({ top: document.getElementById(index.toString()).offsetTop, behavior: "smooth" })}>
@@ -209,7 +271,7 @@ const HomePage = () => {
             </svg>
           ))}
           <svg width="30" height="30" className="mt-3">
-            <circle cx="15" cy="15" r="14" fill="white" stroke="black" stroke-width="1"/>
+            <circle cx="15" cy="15" r="14" fill="white" stroke="black" strokeWidth="1"/>
           </svg>
         </div>
       </div>
