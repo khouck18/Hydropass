@@ -282,7 +282,38 @@ function ExplorePage() {
       </div>
 
       <div
-      className={`${temp.gridContainer}`}>
+      className={`${temp.gridContainer}`}
+      style={{
+        width: "100wh",
+        height: "60vh",
+        justifyContent: "space-evenly",
+        marginRight: "10%"
+        
+      }}>
+
+
+        {/* <div style={{
+          backgroundImage: `url(${photos[currentIndex].images})`,
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+        }}></div>
+
+        <div style={{
+          backgroundImage: `url(${photos[getPreviousIndex[currentIndex]].images})`,
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+        }}></div> */}
+
+        {/* <div style={{
+          backgroundImage: `url(${photos[getNextIndex[currentIndex]].images})`,
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+        }}></div> */}
+
+        
         {photos.map((listing) => {
           return (
             <ListingTemplate
@@ -294,6 +325,13 @@ function ExplorePage() {
             />
           );
         })}
+            {/* <ListingTemplate
+              location={photos[0].location}
+              dailyRate={photos[0].dailyRate}
+              image={photos[0].images}
+              ratings={photos[0].Ratings}
+              name={photos[0].Name}
+            /> */}
       </div>
     </div>
     

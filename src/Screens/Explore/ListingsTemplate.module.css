@@ -8,16 +8,35 @@
 }
 
 .container{
-    flex: auto;
     column-span: all;
     cursor: pointer;
-
 }
 
 .container:hover {
     scale: "1.1";
 }
 
-.square {
-    
+.flexcontainer {
+    flex: auto;
+    flex-direction: column;
+    gap: 2;
+    width: 100;
+}
+
+.imagecontainer {
+    aspect-ratio: 1/1;
+    width: 128px;
+    border-radius: 25px;
+    background-color:gray;
+}
+
+.squareimage {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+    transition:ease-in;
+  }
+
+.squareimage:hover {
+    scale: "1.1";
 }

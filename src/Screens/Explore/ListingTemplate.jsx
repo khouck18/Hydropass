@@ -1,36 +1,24 @@
-import css from "./ListingsTemplate.module.css";
+import "./ListingsTemplate.module.css";
 import { AiFillStar } from "react-icons/ai";
 
 const ListingTemplate = (props) => {
   return (
     <div style={{
-      height: "60vh",
-      flex: "1",
-      flexDirection: "column",
-      gap: "2px",
-      justifyContent: "center",
-      alignItems: "center"
-    }}>
-      <div style={{
-        columnSpan: "all",
-        cursor: "pointer",
-        
-      }}>
-        <div style={{
-          flex: "1",
-          flexDirection: "column",
-          gap: "2px",
-          width: "100"
+    }}
+    className="container"> 
+      <div className="flexcontainer">
+        <div className="imagecontainer"
+        style={{
+          position: "relative",
+          overflow: "hidden",
         }}>
-          <div style={{
-          }}>
-
-          </div>
+            <img className="squareimage"
+            src={props.image} alt="Listing"/>
 
         </div>
-        
       </div>
     </div>
+
   );
 };
 
