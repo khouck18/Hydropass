@@ -14,10 +14,20 @@
 
 }
 
-.container:hover {
-    scale: "1.1";
-}
 
 .square {
-    
+    width: 128px;
+    height: 128px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 25px;
+    background-color: gray;
+}
+
+.image {
+    transition: transform 0.2s ease-in-out;
+}
+  
+.image:hover {
+    transform: scale(1.1);
 }

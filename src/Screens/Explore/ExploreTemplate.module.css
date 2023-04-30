@@ -40,8 +40,14 @@ opacity: 1;
 }
 
 .gridContainer {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  flex: auto;
+  flex-direction: column;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-gap: 8px;
   size: 24;
+}
+
+.explore {
+  margin-top: 10px;
+  margin-left: 20px;
 }

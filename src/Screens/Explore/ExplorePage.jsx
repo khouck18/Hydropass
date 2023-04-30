@@ -11,6 +11,8 @@ import Beaches from "../../Images/Beaches.jpg";
 import HomePageSearchBar from "../../Components/HomePageSearchBar";
 import temp from "./ExploreTemplate.module.css";
 import HorizontalListing from "./HorizontalListing";
+import { Grid, Box } from "@mui/material";
+import ExploreBar from "./ExploreBar.jsx";
 
 function ExplorePage() {
   const photos = [
@@ -128,11 +130,13 @@ function ExplorePage() {
     }
   }
   return (
-    <div style={{
-      position: "relative",
-      height: "100vh",
-      width: "100"
-    }}>
+    <div
+      style={{
+        position: "relative",
+        height: "100vh",
+        width: "100%"
+      }}
+    >
       <div
         style={{
           position: "relative",
@@ -210,7 +214,7 @@ function ExplorePage() {
               backgroundPosition: "center",
               backgroundRepeat: "no-repeat",
               backgroundSize: "cover",
-              transform: "translateX(-70%) translateY(40%)",
+              transform: "translateX(-60%) translateY(40%)",
               borderRadius: "25px",
               transitionDuration: "1000ms"
             }}
@@ -270,123 +274,75 @@ function ExplorePage() {
 
       <div
         style={{
-
-          gridRow: "auto",
           width: "100%",
           height: "20%",
           borderRadius: "25px",
-          backgroundImage: `url(${photos[getNextIndex(currentIndex)].images})`,
+          backgroundColor: "#2d6fb8 ",
+          display: "flex",
+          flexDirection: "column",
+          color:"white",
+          gap:"12px",
         }}
       >
+        <div className={`${temp.explore}`}>
+          <div
+            style={{
+              fontSize:"30px",
+              alignContent:"flex-start",
+
+            }}
+          >
+            <MdExplore /> Explore
+          </div>
+        </div>
+        <div style={{
+          justifyContent:"center",
+          display:"flex",
+
+        }}>         <ExploreBar/></div>
 
       </div>
 
-      <div
-      className={`${temp.gridContainer}`}>
-        {photos.map((listing) => {
-          return (
-            <ListingTemplate
-              location={listing.location}
-              dailyRate={listing.dailyRate}
-              image={listing.images}
-              ratings={listing.Ratings}
-              name={listing.Name}
-            />
-          );
-        })}
+
+
+
+
+
+
+
+
+
+
+
+      <div style={{ paddingTop: "24px" }}>
+        <Box>
+          <Grid
+            container
+            spacing={4}
+            direction="row"
+            alignItems="center"
+            justifyContent="space-evenly"
+            rowSpacing={6}
+            columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+          >
+            {photos.map((listing) => {
+              return (
+                <Grid item justifyContent="center">
+                  <ListingTemplate
+                    location={listing.location}
+                    dailyRate={listing.dailyRate}
+                    image={listing.images}
+                    ratings={listing.Ratings}
+                    name={listing.Name}
+                  />
+                </Grid>
+              );
+            })}
+          </Grid>
+        </Box>
       </div>
     </div>
-    
   );
 }
 
 export default ExplorePage;
-
-/*<div className={`h-screen w-100 ${css.containerAlignment}`}>
-      <div className="relative h-4/5 justify-center">
-        <div
-          className="left-0 blur-md bg-center bg-cover duration-1000 h-full brightness-50 w-100 m-auto"
-          style={{ backgroundImage: `url(${photos[currentIndex].images})` }}
-        ></div>
-
-        <div class="flex justify-center relative bottom-40">
-          <div class="text-center">
-            <p class="inline-block align-middle text-2xl text-white font-normal">
-              {photos[currentIndex].Name}
-            </p>
-          </div>
-        </div>
-        <div class="flex justify-end items-end relative bottom-28">
-          <div className=" text-yellow-300">
-            <AiFillStar size={28} />
-          </div>
-          <p class="inline-block align-bottom text-2xl text-white font-normal mr-6">
-            {photos[currentIndex].Ratings}
-          </p>
-        </div>
-        <div class="flex justify-between items-center relative bottom-28">
-          <div class="text-left ml-10">
-            <p class="inline-block align-middle text-2xl text-white font-normal">
-              {photos[currentIndex].location}
-            </p>
-          </div>
-          <div class="text-right mr-6">
-            <p class="inline-block align-middle text-2xl text-white font-normal">
-              ${photos[currentIndex].dailyRate}
-            </p>
-          </div>
-        </div>
-        <div className="group">
-          <div className="absolute group-hover:block top-1/2 -translate-y-[30%]  text-2xl rounded-ful p-2 bg-black/20 text-white cursor-pointer">
-            <BsChevronLeft onClick={prevSlide} size={45} />
-          </div>
-          <div className="absolute group-hover:block top-1/2  -translate-y-[30%] right-0 text-2xl rounded-ful p-2 bg-black/20 text-white cursor-pointer">
-            <BsChevronRight onClick={nextSlide} size={45} />
-          </div>
-        </div>
-
-        <div className="group m-auto flex flex-row flex-wrap lg:justify-between justify-between my-auto inset-0 absolute h-3/5 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-          <div
-            style={{
-              backgroundImage: `url(${
-                photos[getPreviousIndex(currentIndex)].images
-              })`
-            }}
-            className="aspect-square h-max rounded-2xl bg-center bg-cover duration-1000 brightness-50 scale-50 items-center justify-center left-0 transform -translate-x-3/4 lg:w-1/3"
-          ></div>
-          <div
-            style={{ backgroundImage: `url(${photos[currentIndex].images})` }}
-            className="bg-center cursor-pointer aspect-square h-max rounded-2xl bg-cover duration-1000 scale-150 lg:w-1/3"
-          ></div>
-          <div
-            style={{
-              backgroundImage: `url(${
-                photos[getNextIndex(currentIndex)].images
-              })`
-            }}
-            className="aspect-square h-max rounded-2xl bg-center bg-cover duration-1000 brightness-50 scale-50 items-center justify-center right-0 transform translate-x-3/4 lg:w-1/3"
-          ></div>
-        </div>
-      </div>
-
-      <div className="flex bg-gray-300 rounded-2xl h-32">
-        <div className="text-black flex p-4">
-          <MdExplore size={30} />
-          <p class=" text-2xl text-black font-normal">Explore More</p>
-        </div>
-        <div></div>
-      </div>
-      <div className="pt-24 grid grid-cols-1 sm:grid-cols-2  md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-8 container">
-        {photos.map((listing) => {
-          return (
-            <ListingTemplate
-              location={listing.location}
-              dailyRate={listing.dailyRate}
-              image={listing.images}
-              ratings={listing.Ratings}
-              name={listing.Name}
-            />
-          );
-        })}
-      </div>
-    </div> */

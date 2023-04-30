@@ -1,34 +1,63 @@
-import css from "./ListingsTemplate.module.css";
+import css from"./ListingsTemplate.module.css";
 import { AiFillStar } from "react-icons/ai";
 
 const ListingTemplate = (props) => {
   return (
-    <div style={{
-      height: "60vh",
-      flex: "1",
-      flexDirection: "column",
-      gap: "2px",
-      justifyContent: "center",
-      alignItems: "center"
-    }}>
-      <div style={{
-        columnSpan: "all",
-        cursor: "pointer",
-        
-      }}>
-        <div style={{
-          flex: "1",
-          flexDirection: "column",
-          gap: "2px",
-          width: "100"
-        }}>
-          <div style={{
-          }}>
-
+    <div style={{ justifyContent: "center", margin: "auto", display: "flex" }}>
+      <div
+        style={{
+          borderRadius: "20px",
+        }}
+        className={`${css.image}`}
+      >
+        <img
+          src={props.image}
+          alt=""
+          style={{
+            height: "280px",
+            width: "280px",
+            objectFit: "cover",
+            borderRadius: "20px",
+            cursor: "pointer",
+          }}
+          
+        />
+        <div
+          style={{
+            marginTop: "3px",
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between"
+          }}
+        >
+          <div>
+            <div style={{ fontWeight: "600", fontSize: "17px" }}>
+              {props.name}
+            </div>
+            <div style={{ fontWeight: "lighter", color: "black" }}>
+              {props.location}
+            </div>
+            <div
+              style={{ fontWeight: "600", fontSize: "17px", display: "flex" }}
+            >
+              ${props.dailyRate}{" "}
+              <div style={{ fontWeight: "lighter" }}> /night</div>
+            </div>
           </div>
-
+          <div style={{ display: "flex" }}>
+            <AiFillStar size={18} />
+            <div
+              style={{
+                fontWeight: "lighter",
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: "-3px"
+              }}
+            >
+              {props.ratings}
+            </div>
+          </div>
         </div>
-        
       </div>
     </div>
   );
@@ -36,7 +65,7 @@ const ListingTemplate = (props) => {
 
 export default ListingTemplate;
 
-  /* <div class="flex justify-between items-center relative bottom-28">
+/* <div class="flex justify-between items-center relative bottom-28">
 <div class="text-left ml-10">
   <p class="inline-block align-middle text-2xl text-white font-normal">
     {photos[currentIndex].location}
