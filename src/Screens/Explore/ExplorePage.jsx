@@ -13,6 +13,7 @@ import temp from "./ExploreTemplate.module.css";
 import HorizontalListing from "./HorizontalListing";
 import { Grid, Box } from "@mui/material";
 import ExploreBar from "./ExploreBar.jsx";
+import Filters from "./Filters";
 
 function ExplorePage() {
   const photos = [
@@ -275,46 +276,47 @@ function ExplorePage() {
       <div
         style={{
           width: "100%",
-          height: "20%",
+          height: "25%",
           borderRadius: "25px",
-          backgroundColor: "#2d6fb8 ",
-          display: "flex",
+          backgroundColor: "#2d6fb8",
           flexDirection: "column",
-          color:"white",
-          gap:"12px",
+          color: "white",
+          gap: "12px"
         }}
+        // className={`${temp.sticky}`}
       >
         <div className={`${temp.explore}`}>
           <div
             style={{
-              fontSize:"30px",
-              alignContent:"flex-start",
-
+              fontSize: "30px",
+              alignContent: "flex-start",
+              padding: "10px 0 0 0"
             }}
           >
             <MdExplore /> Explore
           </div>
         </div>
-        <div style={{
-          justifyContent:"center",
-          display:"flex",
+        <div
+          style={{
+            justifyContent: "center",
+            display: "flex",
+            padding: "0 0 24px 0",
+            borderBottom: "1px solid ",
+            marginLeft: "20%",
+            marginRight: "20%"
+          }}
+        >
+          <ExploreBar />
+        </div>
 
-        }}>         <ExploreBar/></div>
-
+        <div className={`${temp.explore}`}
+        style={{width:"80%"}}
+        >
+          <Filters />
+        </div>
       </div>
 
-
-
-
-
-
-
-
-
-
-
-
-      <div style={{ paddingTop: "24px" }}>
+      <div style={{ paddingTop: "42px" }}>
         <Box>
           <Grid
             container

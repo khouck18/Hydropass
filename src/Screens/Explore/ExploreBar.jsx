@@ -19,15 +19,15 @@ const ExploreBar = () => {
         style={{
           display: "flex",
           flexDirection: "row",
-          justifyContent:"center"
+          justifyContent: "center"
         }}
       >
         <div
           style={{
             fontSize: "15px",
             //paddingRight:"22.5%",
-            padding:"0 24px",
-            borderRight: "1px solid",
+            padding: "0 48px",
+            borderRight: "1px solid"
           }}
         >
           Location
@@ -37,27 +37,31 @@ const ExploreBar = () => {
           style={{
             fontSize: "15px",
             //paddingLeft:"22.5%",
-            padding:"0 24px",
+            padding: "0 48px",
             alignItems: "center",
-           // gap: "12px",
-            padding:"0 24px",
-            borderRight: "1px solid",
+            // gap: "12px",
+            borderRight: "1px solid"
           }}
         >
-          <div style={{justifyContent:"center"}}> Dates </div>
+          <div style={{ justifyContent: "center" }}> Dates </div>
         </div>
 
-        <div style={{
-            fontSize:"15px",
-            paddingLeft:"24px",
-            paddingRight:"8px",
-            display:"flex",
-            flexDirection:"row",
-            alignItems:"center",
+        <div
+          style={{
+            fontSize: "15px",
+            paddingLeft: "48px",
+            paddingRight: "48px",
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            
             //gap:"12px",
-        }}>
-            <div>Add Guests</div>
-            <div style={{ padding:"0 2px 0 8px", borderRadius:"100px"}}> <BiSearch size={18}/></div>
+          }}
+        >
+          <div>Add Guests</div>
+          <div style={{ transform:"translateX(44px)", padding: "0 2px 0 2px", borderRadius: "100px", backgroundColor:"white"}}>
+            <BiSearch size={24} color="#2d6fb8" />
+          </div>
         </div>
 
 

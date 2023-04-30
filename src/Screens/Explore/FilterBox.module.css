@@ -1,0 +1,12 @@
+.filter {
+    gap: 8px;
+    padding: 12px;
+    border-bottom: 1px solid transparent;
+    color: #949494;
+}
+
+.filter:hover {
+    color: white;
+    transition: color 0.2s ease-in-out;
+    border-bottom: 1px solid white;
+}
