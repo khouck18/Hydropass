@@ -5,6 +5,8 @@ import Layout from "./Screens/Layout";
 import { LocalizationProvider } from "@mui/x-date-pickers-pro";
 import { AdapterDayjs } from "@mui/x-date-pickers-pro/AdapterDayjs";
 import { LicenseInfo } from "@mui/x-license-pro";
+import { ThemeProvider } from "@mui/material/styles";
+import HydropassTheme from "./Utils/ColorTheme";
 
 const App = () => {
   LicenseInfo.setLicenseKey(
@@ -38,7 +40,9 @@ const App = () => {
       <div>
         <AuthContext.Provider value={auth}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <Layout />
+            <ThemeProvider theme={HydropassTheme}>
+              <Layout />
+            </ThemeProvider>
           </LocalizationProvider>
         </AuthContext.Provider>
       </div>

@@ -29,10 +29,10 @@ const HomePageCarousel = (props) => {
           </SwiperSlide>
           ) : (
             <SwiperSlide key={activity.title}>
-              <div class="d-flex justify-content-center">
+              <div className="d-flex justify-content-center">
                 <img width="60" height="60" src={activity.icon} alt={activity.title} />
               </div>
-              <h5 class="text-center">{activity.title}</h5>
+              <h5 className="text-center">{activity.title}</h5>
             </SwiperSlide>
           );
       })}

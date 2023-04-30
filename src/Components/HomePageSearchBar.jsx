@@ -137,7 +137,7 @@ const HomePageSearchBar = () => {
               id="guidedTripFilterSelect"
               value={guidedTripFilter}
               label="Guided Trip"
-              color="success"
+              color="white"
               onChange={(e) => handleGuidedFilterChange(e.target.value)}
             >
               <MenuItem value={false}>No</MenuItem>
