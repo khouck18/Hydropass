@@ -73,13 +73,12 @@ const CreateListing = () => {
   const postNewListing = async () => {
     const listingId = uuidv4();
     dispatch(hostActions.updateCreateListingInformation({fieldName: "listingId", value: listingId}));
-    if(imageNames.length !== 0){
-      const uploadedImages = await uploadImages(imageNames, listingId);
-      dispatch(hostActions.updateCreateListingInformation({fieldName: "listingImages", value: uploadedImages}));
-    }
+    const uploadedImages = await uploadImages(imageNames, listingId);
+    dispatch(hostActions.updateCreateListingInformation({fieldName: "listingImages", value: uploadedImages}));
     const body = {
       ...createListingInformation,
-      listingId
+      listingId,
+      listingImages: uploadedImages
     };
     dispatch(PostNewListing({apiBaseUrl, auth, createListingInformation: body}));
   };
