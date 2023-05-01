@@ -91,35 +91,6 @@ const CreateListing = () => {
     [imageNames]
   );
 
-  // const onDrop = useCallback(
-  //   (acceptedFiles) => {
-  //     const fileNames = [];
-
-  //     acceptedFiles.forEach((file) => {
-  //       const reader = new FileReader();
-
-  //       reader.onabort = () => console.log("file reading was aborted");
-  //       reader.onerror = () => console.log("file reading has failed");
-  //       reader.onload = () => {
-  //         const base64 = btoa(
-  //           new Uint8Array(reader.result).reduce(
-  //             (data, byte) => data + String.fromCharCode(byte),
-  //             ""
-  //           )
-  //         );
-  //         fileNames.push(base64);
-          
-  //         if(fileNames.length === acceptedFiles.length){
-  //           setImageNames([...imageNames, ...acceptedFiles]);
-  //           dispatch(hostActions.updateCreateListingInformation({fieldName: "listingImages", value: fileNames}));
-  //         }
-  //       };
-  //       reader.readAsArrayBuffer(file);
-  //     });
-  //   },
-  //   [dispatch, imageNames]
-  // );
-
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
   const updateCreateListingInformation = (fieldName, updatedValue) => {
