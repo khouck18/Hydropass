@@ -115,23 +115,14 @@ const Filters = () => {
   return (
     <div
       style={{
-        paddingtop: "16px",
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-evenly",
-        overflowX: "auto"
+        marginTop:"16px",
       }}
     >
-      {/* return({filters.map((item) => {
-            // <FilterBox icon={item.icon} name={item.name} />;
-            <div>{item.name} </div>;
-        }
-        )} ); */}
-
-      {filters.map((filter) => {
+      {/* {filters.map((filter) => {
         return <FilterBox icon={filter.icon} name={filter.name} id={filter.id}/>;
-      })}
+      })} */}
+
+      <FilterBox listofFilters = {filters}/>
     </div>
   );
 };

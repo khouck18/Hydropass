@@ -1,3 +1,4 @@
+
 .filter {
     gap: 8px;
     padding: 12px;
@@ -9,4 +10,16 @@
     color: white;
     transition: color 0.2s ease-in-out;
     border-bottom: 1px solid white;
+}
+
+
+#swiper-Replace .swiper-button-next {
+    background-image: url(../../Images/circle-chevron-right-solid.svg);
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    background-position: center;
+  }
+  
+#swiper-Replace .swiper-button-next::after {
+    display: none;
 }

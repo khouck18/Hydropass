@@ -274,9 +274,10 @@ function ExplorePage() {
       </div>
 
       <div
+      // Explore Filter
         style={{
           width: "100%",
-          height: "25%",
+          height: "35vh",
           borderRadius: "25px",
           backgroundColor: "#2d6fb8",
           flexDirection: "column",
@@ -302,15 +303,15 @@ function ExplorePage() {
             display: "flex",
             padding: "0 0 24px 0",
             borderBottom: "1px solid ",
-            marginLeft: "20%",
-            marginRight: "20%"
+            marginLeft: "5%",
+            marginRight: "5%"
           }}
         >
           <ExploreBar />
         </div>
 
-        <div className={`${temp.explore}`}
-        style={{width:"80%"}}
+        <div
+        style={{width:"90%", marginLeft:"15px"}}
         >
           <Filters />
         </div>
