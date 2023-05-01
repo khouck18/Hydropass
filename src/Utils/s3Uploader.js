@@ -2,8 +2,8 @@ import { S3 } from "aws-sdk";
 
 const s3 = new S3({
   region: "us-west-2",
-  accessKeyId: "AKIARSMTKF43VYLR4JVG",
-  secretAccessKey: "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"
+  accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.REACT_APP_AWS_SECRET_ACCESS_KEY
 });
 
 const region = "us-west-2";
