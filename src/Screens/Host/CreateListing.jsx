@@ -58,16 +58,24 @@ const CreateListing = () => {
   const createListingInformation = useSelector((state) => state.host.createListingInformation);
   const [imageNames, setImageNames] = useState([]);
   const availableActivityTypes = [
-    "Fishing",
-    "Rafting",
-    "Kayaking",
-    "Surfing",
-    "Overnight Stays",
-    "Private Beach",
-    "Swimming",
+    "Beaches",
+    "Boating",
+    "Overnights",
+    "Camping",
+    "Canoeing",
+    "Private Dock",
+     "Fishing",
+    "Inner Tubing",
     "Jet Skiing",
-    "Kite Surfing",
-    "Scuba Diving"
+    "Kayaking",
+    "Paddle Boarding",
+    "Rafting",
+    "Sailing",
+    "Scuba Diving",
+    "Snorkeling",
+     "Surfing",
+    "Swimming",
+    "Water Skiing",
   ];
 
   const postNewListing = async () => {
@@ -242,6 +250,19 @@ const CreateListing = () => {
                 updateCreateListingInformation(e.target.id, e.target.value)
               }
             />
+            <FormControl fullWidth className="mt-3">
+                <InputLabel id="featuredListing">Featured Listing</InputLabel>
+                <Select
+                  labelId="featuredListing"
+                  id="featuredListing"
+                  value={createListingInformation.featuredListing}
+                  label="Featured Listing"
+                  onChange={(e) => updateCreateListingInformation("featuredListing", e.target.value)}
+                  >
+                    <MenuItem value={false}>No</MenuItem>
+                    <MenuItem value={true}>Yes</MenuItem>
+                </Select>
+            </FormControl>
           </div>
           <div className="col-9">
             <h5>Uploaded Files</h5>
