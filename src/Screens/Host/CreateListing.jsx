@@ -27,6 +27,9 @@ import { hostActions } from "./HostSlice";
 import { PostNewListing } from "./HostActions";
 import AuthContext from "../../Contexts/AuthContext";
 
+import { uploadImages } from "../../Utils/s3Uploader";
+import { v4 as uuidv4 } from "uuid";
+
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -68,36 +71,23 @@ const CreateListing = () => {
   ];
 
   const postNewListing = async () => {
-    dispatch(PostNewListing({apiBaseUrl, auth, createListingInformation}));
+    const listingId = uuidv4();
+    dispatch(hostActions.updateCreateListingInformation({fieldName: "listingId", value: listingId}));
+    const uploadedImages = await uploadImages(imageNames, listingId);
+    dispatch(hostActions.updateCreateListingInformation({fieldName: "listingImages", value: uploadedImages}));
+    const body = {
+      ...createListingInformation,
+      listingId,
+      listingImages: uploadedImages
+    };
+    dispatch(PostNewListing({apiBaseUrl, auth, createListingInformation: body}));
   };
 
   const onDrop = useCallback(
     (acceptedFiles) => {
-      const fileNames = [];
-
-      acceptedFiles.forEach((file) => {
-        const reader = new FileReader();
-
-        reader.onabort = () => console.log("file reading was aborted");
-        reader.onerror = () => console.log("file reading has failed");
-        reader.onload = () => {
-          const base64 = btoa(
-            new Uint8Array(reader.result).reduce(
-              (data, byte) => data + String.fromCharCode(byte),
-              ""
-            )
-          );
-          fileNames.push(base64);
-          
-          if(fileNames.length === acceptedFiles.length){
-            setImageNames([...imageNames, ...acceptedFiles]);
-            dispatch(hostActions.updateCreateListingInformation({fieldName: "listingImages", value: fileNames}));
-          }
-        };
-        reader.readAsArrayBuffer(file);
-      });
+      setImageNames([...imageNames, ...acceptedFiles]);
     },
-    [dispatch, imageNames]
+    [imageNames]
   );
 
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
