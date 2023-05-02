@@ -22,6 +22,7 @@ import ScubaDivingFilled from "../../Images/ScubaDivingFilled.svg";
 import SailBoatFilled from "../../Images/SailBoatFilled.svg";
 import SnorkelingFilled from "../../Images/SnorkelingFilled.svg";
 import CampingFilled from "../../Images/CampingFilled.svg";
+import { Box, Grid } from "@mui/material";
 
 const HomePage = () => {
   const hydropassHomeItems = [
@@ -260,8 +261,8 @@ const HomePage = () => {
 
   return (
     <>
-      <div style={{ position: "fixed", top: "50%", left: "5%", transform: "translateY(-50%)", zIndex: "1" }}>
-        <div className="d-flex flex-column align-items-center">
+      <Box sx={{ position: "fixed", top: "50%", left: "5%", transform: "translateY(-50%)", zIndex: "1" }}>
+        <Grid sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
           <svg width="30" height="30">
             <circle cx="15" cy="15" r="14" fill="white" stroke="black" strokeWidth="1"/>
           </svg>
@@ -273,13 +274,13 @@ const HomePage = () => {
           <svg width="30" height="30" className="mt-3">
             <circle cx="15" cy="15" r="14" fill="white" stroke="black" strokeWidth="1"/>
           </svg>
-        </div>
-      </div>
+        </Grid>
+      </Box>
 
       {listOfPagesAndContents.map((page, index) => (
-        <div key={page.title} id={index.toString()} style={{ position: "relative", height: "100vh" }}>
-          <div
-            style={{
+        <Box key={page.title} id={index.toString()} sx={{ position: "relative", height: "100vh" }}>
+          <Box
+            sx={{
               position: "absolute",
               top: "0",
               left: "0",
@@ -291,16 +292,16 @@ const HomePage = () => {
               backgroundRepeat: "no-repeat",
               backgroundSize: "cover",
             }}
-          ></div>
-          <div className="position-absolute w-100 h-100">
+          ></Box>
+          <Box sx={{position: "absolute", width: "100%", height: "100%"}}>
             <HomeTemplate
               title={page.title}
               subHeader={page.subHeader}
               additionalInformation={page.additionalInformation}
               listOfActivities={page.listOfActivities}
             />
-          </div>
-        </div>
+          </Box>
+        </Box>
       ))}
     </>
   );
