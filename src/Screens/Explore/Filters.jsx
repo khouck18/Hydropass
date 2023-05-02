@@ -17,7 +17,27 @@ import SailBoatFilled from "../../Images/SailBoatFilled.svg";
 import SnorkelingFilled from "../../Images/SnorkelingFilled.svg";
 import CampingFilled from "../../Images/CampingFilled.svg";
 import FilterBox from "./FilterBox.jsx";
+import css from "./Filters.module.css";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import FilterListIcon from "@mui/icons-material/FilterList";
 
+const typeFilters = [
+  {
+    id: 1,
+    name: "Oceans",
+    icon: SurfboardFilled
+  },
+  {
+    id: 2,
+    name: "Lakes",
+    icon: WaterSkisFilled
+  },
+  {
+    id: 3,
+    name: "Rivers",
+    icon: JetSkiFilled
+  }
+];
 const filters = [
   {
     id: 1,
@@ -115,14 +135,64 @@ const Filters = () => {
   return (
     <div
       style={{
-        marginTop:"16px",
+        display: "flex",
+        flexDirection: "column"
       }}
     >
-      {/* {filters.map((filter) => {
-        return <FilterBox icon={filter.icon} name={filter.name} id={filter.id}/>;
-      })} */}
+      <div
+        style={{
+          display: "flex",
+          marginTop: "16px",
+          flexDirection: "row",
+          justifyContent: "auto"
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            width: "20%",
+            marginBottom: "16px",
+            // gap: "12px",
+            borderRight: "1px solid",
+            marginright: "36px"
+          }}
+        >
+          <div style={{ width: "auto" }}>Water Type: </div>
+          <FilterBox listofFilters={typeFilters} numberofSlides="3" />
+        </div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            width: "73%",
+            marginLeft: "36px",
+            marginright: "36px",
+            borderRight: "1px solid",
+            marginBottom: "16px"
+          }}
+        >
+          <div style={{ width: "auto" }}>Activity Type:</div>
+          <FilterBox listofFilters={filters} numberofSlides="12" />
+        </div>
 
-      <FilterBox listofFilters = {filters}/>
+        <div
+          style={{
+            width: "auto",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-end",
+            justifyItems: "center",
+            alignContent: "center",
+            marginLeft: "64px"
+          }}
+        >
+          <FilterListIcon
+            style={{ fontSize: 36, cursor: "pointer" }}
+            className={`${css.more}`}
+          />
+        </div>
+      </div>
     </div>
   );
 };

@@ -274,10 +274,10 @@ function ExplorePage() {
       </div>
 
       <div
-      // Explore Filter
+        // Explore Filter
         style={{
           width: "100%",
-          height: "35vh",
+          height: "auto",
           borderRadius: "25px",
           backgroundColor: "#2d6fb8",
           flexDirection: "column",
@@ -302,7 +302,7 @@ function ExplorePage() {
             justifyContent: "center",
             display: "flex",
             padding: "0 0 24px 0",
-            borderBottom: "1px solid ",
+            // borderBottom: "1px solid ",
             marginLeft: "5%",
             marginRight: "5%"
           }}
@@ -310,9 +310,7 @@ function ExplorePage() {
           <ExploreBar />
         </div>
 
-        <div
-        style={{width:"90%", marginLeft:"15px"}}
-        >
+        <div style={{ width: "90%", marginLeft: "5%", marginRight: "5%" }}>
           <Filters />
         </div>
       </div>

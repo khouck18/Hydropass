@@ -48,7 +48,7 @@ const FilterBox = (props) => {
         modules={[Navigation]} 
         className="px-5 ms-0 me-5"
         id={swiperId}
-        slidesPerView={props.listofFilters[0].icon === undefined ? "6" : "12"}
+        slidesPerView={props.numberofSlides != null ? props.numberofSlides : "3"}
         spaceBetween={30}
         style={{ "--swiper-navigation-color": "white"}}
 
