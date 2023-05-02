@@ -18,7 +18,8 @@ const initialState = {
     propertyDescription: "",
     propertyRules: "",
     selectedActivities: [],
-    maximumGuests: 0
+    maximumGuests: 0,
+    featuredListing: false
   },
   loading: false,
   error: null
