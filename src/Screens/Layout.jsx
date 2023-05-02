@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import Navbar from "../Components/Navbar";
+import Box from "@mui/material/Box";
 
 const Layout = () => {
   const [showSpacer, setShowSpacer] = useState(false);
@@ -20,11 +21,11 @@ const Layout = () => {
   }, [location.pathname]);
 
   return (
-    <div className="container-fluid">
+    <Box className={showSpacer ? "container-fluid" : null}>
       <Navbar />
-        {showSpacer ? <div style={{marginBottom: "14vh"}}/> : null}
+        {showSpacer ? <Box style={{marginBottom: "14vh"}}/> : null}
       <Outlet />
-    </div>
+    </Box>
   );
 };
 

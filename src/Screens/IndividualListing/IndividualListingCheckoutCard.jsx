@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
-import { Card, CardContent, TextField, Button } from "@mui/material";
+import { Card, CardContent, TextField, Button, Grid, Box, Typography } from "@mui/material";
+import StarIcon from "@mui/icons-material/Star";
+import GroupsIcon from "@mui/icons-material/Groups";
 import { DateRangePicker } from "@mui/x-date-pickers-pro/DateRangePicker";
 import { useSelector } from "react-redux";
 
@@ -9,6 +11,7 @@ const IndividualListingCheckoutCard = () => {
     const [nightlyRentalSum, setNightlyRentalSum] = useState(0);
     const [hydropassFee, setHydropassFee] = useState(0);
     const [totalCost, setTotalCost] = useState(0);
+    // eslint-disable-next-line no-unused-vars
     const [selectedDates, setSelectedDates] = useState({
         startDate: "",
         endDate: ""
@@ -47,64 +50,67 @@ const IndividualListingCheckoutCard = () => {
     };
 
     return (
-        <Card raised className="mb-5" style={{borderRadius: "25px"}}>
+        <Card raised sx={{ mb: 5, borderRadius: "25px"}}>
             <CardContent>
-                <div className="row px-2">
-                    <h5 className="col-5">
-                        ${listingInformation.dailyRate} Day
-                    </h5>
-                    <div className="col-7 mb-3">
-                        <h5 className="d-flex justify-content-end">
-                            <i className="bi bi-star-fill me-1" style={{color: "#ffa07a"}}/> {listingInformation.rating} | {listingInformation.reviews.length} Reviews
-                        </h5>
-                    </div>
-                </div>
-                <div className="w-100 p-2">
-                        <DateRangePicker localeText={{ start: "Check-in", end: "Check-out" }} onChange={(e) => e[1] !== null ? updateSelectedDates(e[0].$d, e[1].$d) : null}/>
-                        <TextField
-                            id="NumberOfGuests"
-                            label={<div><i className="bi bi-people-fill" /> Number of Guests</div>}
-                            className="w-100 mt-3"
-                            variant="outlined"
-                            type="number"
-                        />
+                <Grid container sx={{px: 2}}>
+                    <Grid item xs={5} sm={5} md={5} lg={5}>
+                        <Typography variant="h5">
+                            ${listingInformation.dailyRate} Day
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={7} sm={7} md={7} lg={7} sx={{mb: 3}}>
+                        <Grid container justifyContent="flex-end">
+                            <Typography variant="h5">
+                                <StarIcon color="lightSalmon" sx={{ fontSize: 35, mb: 1 }}/> {listingInformation.rating} | {listingInformation.reviews.length} Reviews
+                            </Typography>
+                        </Grid>
                         
-                        <div className="row pt-4 px-2 pb-2">
-                            <div className="col-8">
-                                ${listingInformation.dailyRate}
-                                <svg height="5" width="5" className="mx-2">
-                                    <circle cx="2.5" cy="2.5" r="2.5" fill="black" />
-                                </svg>
-                                {tripLength} Days
-                            </div>
-                            <div className="col-4">
-                                <div className="d-flex justify-content-end">
-                                    {(nightlyRentalSum).toLocaleString("en-US", currencyOptions)}
-                                </div>
-                            </div>
-                            <div className="col-8">
-                                Hydropass Service Fee
-                            </div>
-                            <div className="col-4">
-                                <div className="d-flex justify-content-end">
-                                    {(hydropassFee).toLocaleString("en-US", currencyOptions)}
-                                </div>
-                            </div>
-                            <div className="border-bottom my-2" />
-                            <div className="col-8">
-                                <h6><strong>Total</strong></h6>
-                            </div>
-                            <div className="col-4">
-                                <div className="d-flex justify-content-end">
-                                    {(totalCost).toLocaleString("en-US", currencyOptions)}
-                                </div>
-                            </div>
-                            <div className="col-12 mt-2">
-                                <Button variant="contained" disabled={tripLength === "0"} className="w-100 py-3">Book Now</Button>
-                            </div>
-                        </div>
-                    </div>
-        
+                    </Grid>
+                </Grid>
+                <Box sx={{ width: "100%", p: 2 }}>
+                    <DateRangePicker localeText={{ start: "Check-in", end: "Check-out" }} onChange={(e) => e[1] !== null ? updateSelectedDates(e[0].$d, e[1].$d) : null}/>
+                    <TextField
+                        id="NumberOfGuests"
+                        label={<Box><GroupsIcon /> Number of Guests</Box>}
+                        sx={{width: "100%",  mt: 3}}
+                        variant="outlined"
+                        type="number"
+                    />
+                    <Grid container sx={{ pt: 4, pb: 2 }}>
+                        <Grid item xs={8} sm={8} md={8} lg={8}>
+                            ${listingInformation.dailyRate}
+                            <svg height="5" width="5" className="mx-2">
+                                <circle cx="2.5" cy="2.5" r="2.5" fill="black" />
+                            </svg>
+                            {tripLength} Days
+                        </Grid>
+                        <Grid item xs={4} sm={4} md={4} lg={4}>
+                            <Grid container justifyContent="flex-end">
+                                {(nightlyRentalSum).toLocaleString("en-US", currencyOptions)}
+                            </Grid>
+                        </Grid>
+                        <Grid item xs={8} sm={8} md={8} lg={8}>
+                            Hydropass Service Fee
+                        </Grid>
+                        <Grid item xs={4} sm={4} md={4} lg={4}>
+                            <Grid container justifyContent="flex-end">
+                                {(hydropassFee).toLocaleString("en-US", currencyOptions)}
+                            </Grid>
+                        </Grid>
+                        <Box variant="div" sx={{ borderBottom: "1px solid gray", my: 2, width: "100%" }} />
+                        <Grid item xs={8} sm={8} md={8} lg={8}>
+                            <Typography variant="h6">Total</Typography>
+                        </Grid>
+                        <Grid item xs={4} sm={4} md={4} lg={4}>
+                            <Grid container justifyContent="flex-end">
+                                {(totalCost).toLocaleString("en-US", currencyOptions)}
+                            </Grid>
+                        </Grid>
+                        <Grid item xs={12} sm={12} md={12} lg={12} sx={{mt: 2}}>
+                            <Button variant="contained" disabled={tripLength === "0"} sx={{width: "100%", py: 3}}>Book Now</Button>
+                        </Grid>
+                    </Grid>
+                </Box>
             </CardContent>
         </Card>
     );

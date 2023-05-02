@@ -1,3 +1,4 @@
+import { Box } from "@mui/material";
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 
@@ -19,14 +20,14 @@ const IndividualListingImageGallery = () => {
     ];
 
     return (
-        <div className="mt-5 ms-5">
+        <Box sx={{ mt: 5, ms: 5 }}>
             <ImageGallery 
                 items={images} 
                 showBullets={false} 
                 showPlayButton={false}
                 thumbnailPosition="bottom"
             />
-        </div>
+        </Box>
     );
 };
 

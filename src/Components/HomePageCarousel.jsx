@@ -3,7 +3,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Navigation } from "swiper";
-import Button from "@mui/material/Button";
+import { Button, Typography, Grid } from "@mui/material";
 
 const HomePageCarousel = (props) => {
   const swiperId = `swiper-${props.title}`;
@@ -21,18 +21,18 @@ const HomePageCarousel = (props) => {
       {props.listOfActivities.map((activity) => {
         return activity.icon === undefined ? (
           <SwiperSlide key={activity.title}>
-            <h3>{activity.title}</h3>
-            <h5>{activity.description}</h5>
-            <Button className="text-white" sx={{border: "2px solid white", "&:hover": {border: "2px solid white"}}} variant="outlined">
+            <Typography variant="h4" sx={{ textShadow: "0 0 2px black" }}>{activity.title}</Typography>
+            <Typography variant="h6" sx={{ textShadow: "0 0 2px black" }}>{activity.description}</Typography>
+            <Button sx={{border: "2px solid white", "&:hover": {border: "2px solid white"}, color: "white.main", textShadow: "0 0 2px black"}} variant="outlined">
               {activity.buttonName}
             </Button>
           </SwiperSlide>
           ) : (
             <SwiperSlide key={activity.title}>
-              <div className="d-flex justify-content-center">
+              <Grid display="flex" justifyContent="center">
                 <img width="60" height="60" src={activity.icon} alt={activity.title} />
-              </div>
-              <h5 className="text-center">{activity.title}</h5>
+              </Grid>
+              <Typography variant="h5" sx={{ textShadow: "0 0 2px black", textAlign: "center" }}>{activity.title}</Typography>
             </SwiperSlide>
           );
       })}

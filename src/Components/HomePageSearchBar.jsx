@@ -1,11 +1,12 @@
 import { useState } from "react";
-import TextField from "@mui/material/TextField";
+import { TextField, InputLabel, MenuItem, Select, FormControl, Grid, Box} from "@mui/material";
 import { DateRangePicker } from "@mui/x-date-pickers-pro/DateRangePicker";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
-import FormControl from "@mui/material/FormControl";
 import { SingleInputDateRangeField } from "@mui/x-date-pickers-pro/SingleInputDateRangeField";
+import MapIcon from "@mui/icons-material/Map";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import GroupsIcon from "@mui/icons-material/Groups";
+import WaterDropIcon from "@mui/icons-material/WaterDrop";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import css from "./HomePageSearchBar.module.css";
 import styled from "styled-components";
 
@@ -90,46 +91,42 @@ const HomePageSearchBar = () => {
 
   return (
     <form className={`${css.glassBackground} border rounded py-4 px-5 me-5`}>
-      <div className="row">
-        <div
-          className={`${css.flexGridAdditionalStyles} col-12 col-md-4 col-lg-2`}
-        >
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={12} md={4} lg={2} sx={{ mb: 0 }}>
           <StyledTextField
             id="locationInput"
-            label={<div className="text-white"> <i className="bi bi-globe-americas" /> Location</div>}
+            label={<Box sx={{ color: "white.main" }}> <MapIcon /> Location</Box>}
             className={`${css.input} w-100`}
             variant="outlined"
           />
-        </div>
-        <div
-          className={`${css.flexGridAdditionalStyles} col-12 col-md-8 col-lg-4`}
-        >
+        </Grid>
+        <Grid item xs={12} sm={12} md={8} lg={4} sx={{ mb: 0 }}>
           <FormControl variant="outlined" fullWidth>
             <StyledDatePicker
-              label={<div className="text-white"><i className="bi bi-calendar-week" /> Reservation Dates</div>}
+              label={<Box sx={{ color: "white.main" }}> <CalendarMonthIcon /> Reservation Dates</Box>}
               slots={{ field: SingleInputDateRangeField }}
               id="reservation-dates"
             />
           </FormControl>
-        </div>
-        <div className="col-4 col-md-4 col-lg-2">
+        </Grid>
+        <Grid item xs={4} sm={4} md={4} lg={2}>
           <StyledTextField
             id="numberOfGuestsInput"
-            label={<div className="text-white"><i className="bi bi-people-fill" /> Guests</div>}
+            label={<Box sx={{ color: "white.main" }}> <GroupsIcon /> Guests</Box>}
             variant="outlined"
           />
-        </div>
-        <div className="col-4 col-md-4 col-lg-2">
+        </Grid>
+        <Grid item xs={4} sm={4} md={4} lg={2}>
           <StyledTextField
             id="activityTypeInput"
-            label={<div className="text-white"><i className="bi bi-droplet" /> Activity Type</div>}
+            label={<Box sx={{ color: "white.main" }}> <WaterDropIcon /> Activity Type</Box>}
             variant="outlined"
           />
-        </div>
-        <div className="col-4 col-md-4 col-lg-2">
+        </Grid>
+        <Grid item xs={4} sm={4} md={4} lg={2}>
           <FormControl fullWidth>
-            <InputLabel id="guidedTripFilterSelectLabel" className="text-white">
-            <i className="bi bi-person-fill-add" />{" "}
+            <InputLabel id="guidedTripFilterSelectLabel" sx={{ color: "white.main" }}>
+            <PersonAddIcon />{" "}
               Guided
             </InputLabel>
             <StyledSelect
@@ -144,8 +141,8 @@ const HomePageSearchBar = () => {
               <MenuItem value={true}>Yes</MenuItem>
             </StyledSelect>
           </FormControl>
-        </div>
-      </div>
+        </Grid>
+      </Grid>
     </form>
   );
 };

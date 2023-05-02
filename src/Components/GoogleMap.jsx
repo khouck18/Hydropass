@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Loader } from "@googlemaps/js-api-loader";
 
 const GoogleMap = ({ address }) => {
-  const [map, setMap] = useState(null);
+  const [, setMap] = useState(null);
 
   useEffect(() => {
     const loader = new Loader({
@@ -35,7 +35,7 @@ const GoogleMap = ({ address }) => {
             center: results[0].geometry.location,
             radius: 1609.34, // 1.5 miles in meters
           };
-          const circle = new window.google.maps.Circle(circleOptions);
+          new window.google.maps.Circle(circleOptions);
         } else {
           console.error("Geocode was not successful for the following reason: " + status);
         }

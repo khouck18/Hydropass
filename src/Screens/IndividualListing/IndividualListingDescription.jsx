@@ -1,7 +1,7 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
-import Tooltip from "@mui/material/Tooltip";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
+import { Tooltip, Avatar, Button, Box, Typography, Grid } from "@mui/material";
+import StarIcon from "@mui/icons-material/Star";
 import BeachFilledSecondary from "../../Images/BeachFilledSecondary.svg";
 import BoatFilledSecondary from "../../Images/BoatFilledSecondary.svg";
 import CabinFilledSecondary from "../../Images/CabinFilledSecondary.svg";
@@ -23,27 +23,6 @@ import WaterSkisFilledSecondary from "../../Images/WaterSkisFilledSecondary.svg"
 
 
 const IndividualListingDescription = () => {
-
-    const iconList = [
-        BeachFilledSecondary, 
-        BoatFilledSecondary, 
-        CabinFilledSecondary, 
-        CampingFilledSecondary, 
-        CanoeFilledSecondary,
-        DockFilledSecondary,
-        FishingPoleFilledSecondary,
-        InnerTubeFilledSecondary,
-        JetSkiFilledSecondary,
-        KayakFilledSecondary,
-        PaddleBoardFilledSecondary,
-        RaftFilledSecondary,
-        SailBoatFilledSecondary,
-        ScubaDivingFilledSecondary,
-        SnorkelingFilledSecondary,
-        SurfboardFilledSecondary,
-        SwimmingFilledSecondary,
-        WaterSkisFilledSecondary
-    ];
 
     const listingIcons = [
         {
@@ -71,9 +50,9 @@ const IndividualListingDescription = () => {
     const str = "Welcome to one of the most beautiful and pristine lakes in North America - Lake Sutherland. Situated between entrances to Olympic National Park, this spectacular lake front cottage is 608 sq ft with high ceilings, a modern design and a 1,400 sq ft dock to take in the sweeping views of the mountains. The cabin's gracious floor to ceiling windows let you soak in the views while you cozy up by the fireplace. Whether you are inside or out, you will be getting your much needed dose of nature.";
 
     return (
-        <div className="ms-5 ps-5"> 
-            <h2>Name of Listing</h2>
-            <h5>Address of Listing</h5>
+        <Box sx={{ms: 2, mr: 4}}> 
+            <Typography variant="h3">Name of Listing</Typography>
+            <Typography variant="h5">Address of Listing</Typography>
             {listingIcons.map((icon) => {
                 return (
                     <Tooltip key={icon.description} title={icon.description}>
@@ -81,31 +60,32 @@ const IndividualListingDescription = () => {
                     </Tooltip>
                 );
             })}
-            <div className="mt-5 pb-4 border-bottom">
-                <h5>About the Listing</h5>
+            <Box sx={{mt: 5, pb: 4,  borderBottom: "solid 1px gray" }}>
+                <Typography variant="h5">About the Listing</Typography>
                 {str}
-
-            </div>
-            <div className="mt-2 pb-4 border-bottom">
-                <h5>Listing Rules</h5>
+            </Box>
+            <Box sx={{ mt: 2, pb: 4, borderBottom: "solid 1px gray" }}>
+                <Typography variant="h5">Listing Rules</Typography>
                 Storm: No refunds will be given in the event that a storm or severe weather conditions limits your accessibility to the lake house or causes a power outage. We do not refund due to road conditions; however, we will assess this case by case and are willing to compensate accordingly to make it fair for both parties
-            </div>
-            <div className="mt-3">
-                <div className="row">
-                    <div className="col-2">
+            </Box>
+            <Box sx={{ mt: 3 }}>
+                <Grid container>
+                    <Grid item xs={2} sm={2} md={2} lg={2}>
                         <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg"  sx={{ width: 65, height: 65 }}/>
-                    </div>
-                    <div className="col-5 ms-2">
-                        <h5 className="mb-0">Travis Howard </h5>
-                        <div className="my-0"><i className="bi bi-star-fill me-1" style={{color: "#ffa07a"}}/> 4.8</div>
-                        <div>Member since 2023</div>
-                    </div>
-                    <div className="col-4 ms-2 mt-2">
-                        <Button variant="outlined" className="py-3">Contact Host</Button>
-                    </div>
-                </div>
-            </div>
-        </div>
+                    </Grid>
+                    <Grid item xs={5} sm={5} md={5} lg={5} sx={{ ms: 2 }}>
+                        <Typography variant="h5">Travis Howard</Typography>
+                        <Box sx={{ my: 0 }}>
+                            <StarIcon color="lightSalmon" sx={{ mb: 1 }}/>  4.8
+                            <Box>Member since 2023</Box>
+                        </Box>
+                    </Grid> 
+                    <Grid item xs={4} sm={4} md={4} lg={4} sx={{ ms: 2, mt: 2 }}>
+                        <Button variant="outlined" sx={{ py: 3 }}>Contact Host</Button>
+                    </Grid>
+                </Grid>
+            </Box>
+        </Box>
     );
 };
 
