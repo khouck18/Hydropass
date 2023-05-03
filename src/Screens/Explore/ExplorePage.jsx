@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 
 import { MdExplore } from "react-icons/md";
@@ -14,103 +14,131 @@ import HorizontalListing from "./HorizontalListing";
 import { Grid, Box } from "@mui/material";
 import ExploreBar from "./ExploreBar.jsx";
 import Filters from "./Filters";
+import { useDispatch, useSelector } from "react-redux";
+import AuthContext from "../../Contexts/AuthContext";
+import { GetListings } from "./ExplorePageActions";
 
 function ExplorePage() {
-  const photos = [
+  const dispatch = useDispatch();
+  const auth = useContext(AuthContext);
+  const apiBaseUrl = `${process.env.REACT_APP_API_URL}`;
+
+  const tempphotos = [
     {
       images: Lakes,
       location: "Location: Lake",
       dailyRate: "680",
-      Ratings: "4.4",
-      Name: "Beautiful Lake View"
+      rating: "4.4",
+      name: "Beautiful Lake View"
     },
     {
       images: Rivers,
       location: "Location: River",
       dailyRate: "400",
-      Ratings: "4.0",
-      Name: "Beautiful River View"
+      rating: "4.0",
+      name: "Beautiful River View"
     },
     {
       images: Beaches,
       location: "Location: Beach",
       dailyRate: "420",
-      Ratings: "3.4",
-      Name: "Beautiful Beach View"
+      rating: "3.4",
+      name: "Beautiful Beach View"
     },
     {
       images: Lakes,
       location: "Location: Lake - 2",
       dailyRate: "6969",
-      Ratings: "5.0",
-      Name: "Beautiful Lake View -2"
+      rating: "5.0",
+      name: "Beautiful Lake View -2"
     },
     {
       images: Rivers,
       location: "Location: River -2",
       dailyRate: "1200",
-      Ratings: "2.1",
-      Name: "Beautiful River View -2"
+      rating: "2.1",
+      name: "Beautiful River View -2"
     },
     {
       images: Beaches,
       location: "Location: Beach -2",
       dailyRate: "109",
-      Ratings: "2.8",
-      Name: "Beautiful Beach View -2"
+      rating: "2.8",
+      name: "Beautiful Beach View -2"
     },
     {
       images: Lakes,
       location: "Location: Lake -3",
       dailyRate: "850",
-      Ratings: "3.8",
-      Name: "Beautiful Lake View -3"
+      rating: "3.8",
+      name: "Beautiful Lake View -3"
     },
     {
       images: Rivers,
       location: "Location: River -3",
       dailyRate: "200",
-      Ratings: "4.4",
-      Name: "Beautiful River View -3"
+      rating: "4.4",
+      name: "Beautiful River View -3"
     },
     {
       images: Beaches,
       location: "Location: Beach -3",
       dailyRate: "289",
-      Ratings: "1.7",
-      Name: "Beautiful Beach View -3"
+      rating: "1.7",
+      name: "Beautiful Beach View -3"
     },
     {
       images: Lakes,
       location: "Location: Lake -4",
       dailyRate: "190",
-      Ratings: "5.0",
-      Name: "Beautiful Lake View -4"
+      rating: "5.0",
+      name: "Beautiful Lake View -4"
     },
     {
       images: Rivers,
       location: "Location: River -4",
       dailyRate: "880",
-      Ratings: "5.0",
-      Name: "Beautiful River View -4"
+      rating: "5.0",
+      name: "Beautiful River View -4"
     },
     {
       images: Beaches,
       location: "Location: Beach -4",
       dailyRate: "910",
-      Ratings: "2.4",
-      Name: "Beautiful Beach View -4"
+      rating: "2.4",
+      name: "Beautiful Beach View -4"
     }
   ];
+
   const [currentIndex, setCurrentIndex] = useState(0);
+  const allListingInformation = useSelector(
+    (state) => state.explorePage.allListingsInfo
+  );
+  const featureListingInformation =
+    allListingInformation[0].images.length > 0
+      ? allListingInformation.filter((listing) => listing.featuredListing)
+      : [
+          {
+            images: [],
+            location: "",
+            dailyRate: "",
+            rating: "",
+            name: ""
+          }
+        ];
+  useEffect(() => {
+    dispatch(GetListings({ apiBaseUrl, auth }));
+  }, []);
 
   const prevSlide = () => {
     const isFirstSlide = currentIndex === 0;
-    const newIndex = isFirstSlide ? photos.length - 1 : currentIndex - 1;
+    const newIndex = isFirstSlide
+      ? featureListingInformation.length - 1
+      : currentIndex - 1;
     setCurrentIndex(newIndex);
   };
   const nextSlide = () => {
-    const isLastSlide = currentIndex === photos.length - 1;
+    const isLastSlide = currentIndex === featureListingInformation.length - 1;
     const newIndex = isLastSlide ? 0 : currentIndex + 1;
     setCurrentIndex(newIndex);
   };
@@ -119,17 +147,18 @@ function ExplorePage() {
   };
 
   function getPreviousIndex(currentIndex) {
-    if (currentIndex - 1 < 0) return photos.length - 1;
+    if (currentIndex - 1 < 0) return featureListingInformation.length - 1;
     else return currentIndex - 1;
   }
 
   function getNextIndex(currentIndex) {
-    if (currentIndex + 1 > photos.length - 1) {
+    if (currentIndex + 1 > featureListingInformation.length - 1) {
       return 0;
     } else {
       return currentIndex + 1;
     }
   }
+
   return (
     <div
       style={{
@@ -152,7 +181,7 @@ function ExplorePage() {
             left: 0,
             width: "100%",
             height: "100%",
-            backgroundImage: `url(${photos[currentIndex].images})`,
+            backgroundImage: `url(${featureListingInformation[currentIndex].images[0]})`,
             backgroundAttachment: "scroll",
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
@@ -188,7 +217,7 @@ function ExplorePage() {
         </div>
 
         <div
-          //className={`${temp.innerphotos}`}
+          //className={`${temp.innerallListingInformation}`}
           style={{
             position: "absolute",
             gridRow: "auto",
@@ -210,7 +239,8 @@ function ExplorePage() {
               maxWidth: "25%",
               width: "20%",
               backgroundImage: `url(${
-                photos[getPreviousIndex(currentIndex)].images
+                featureListingInformation[getPreviousIndex(currentIndex)]
+                  .images[0]
               })`,
               backgroundPosition: "center",
               backgroundRepeat: "no-repeat",
@@ -225,7 +255,7 @@ function ExplorePage() {
             style={{
               height: "100%",
               width: "50%",
-              backgroundImage: `url(${photos[currentIndex].images})`,
+              backgroundImage: `url(${featureListingInformation[currentIndex].images[0]})`,
               backgroundPosition: "center",
               backgroundRepeat: "no-repeat",
               backgroundSize: "cover",
@@ -238,7 +268,7 @@ function ExplorePage() {
               height: "60%",
               width: "20%",
               backgroundImage: `url(${
-                photos[getNextIndex(currentIndex)].images
+                featureListingInformation[getNextIndex(currentIndex)].images[0]
               })`,
               backgroundPosition: "center",
               backgroundRepeat: "no-repeat",
@@ -264,10 +294,10 @@ function ExplorePage() {
         >
           <div style={{}}>
             <HorizontalListing
-              name={photos[currentIndex].Name}
-              location={photos[currentIndex].location}
-              rating={photos[currentIndex].Ratings}
-              dailyRate={photos[currentIndex].dailyRate}
+              name={allListingInformation[currentIndex].name}
+              location={allListingInformation[currentIndex].location}
+              rating={allListingInformation[currentIndex].rating}
+              dailyRate={allListingInformation[currentIndex].dailyRate}
             />
           </div>
         </div>
@@ -319,22 +349,23 @@ function ExplorePage() {
         <Box>
           <Grid
             container
-            spacing={4}
+            //spacing={4}
             direction="row"
             alignItems="center"
             justifyContent="space-evenly"
-            rowSpacing={6}
-            columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+           //rowSpacing={6}
+            //columnSpacing={{ xs: 1, sm: 2, md: 3 }}
           >
-            {photos.map((listing) => {
+            {allListingInformation.map((listing) => {
               return (
-                <Grid item justifyContent="center">
+                <Grid item justifyContent="center" xs={3} sm={3} md={3} lg={3}>
                   <ListingTemplate
                     location={listing.location}
                     dailyRate={listing.dailyRate}
                     image={listing.images}
-                    ratings={listing.Ratings}
-                    name={listing.Name}
+                    rating={listing.rating}
+                    name={listing.name}
+                    listingInfo = {listing}
                   />
                 </Grid>
               );

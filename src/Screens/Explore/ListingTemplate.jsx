@@ -1,50 +1,80 @@
-import css from"./ListingsTemplate.module.css";
+import css from "./ListingsTemplate.module.css";
 import { AiFillStar } from "react-icons/ai";
+import { Grid } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { individualListingActions } from "../IndividualListing/IndividualListingSlice";
+import { useNavigate } from "react-router";
 
 const ListingTemplate = (props) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const setListingInformation = () => {
+    dispatch(
+      individualListingActions.updateListingInformation(props.listingInfo)
+    );
+    navigate("/listing");
+  };
   return (
-    <div style={{ justifyContent: "center", margin: "auto", display: "flex" }}>
+    <div style={{ cursor: "pointer" }} onClick={setListingInformation}>
       <div
         style={{
           borderRadius: "20px",
+          marginLeft: "2%",
+          marginRight: "2%"
         }}
         className={`${css.image}`}
       >
-        <img
-          src={props.image}
-          alt=""
-          style={{
-            height: "280px",
-            width: "280px",
-            objectFit: "cover",
-            borderRadius: "20px",
-            cursor: "pointer",
-          }}
-          
-        />
-        <div
-          style={{
-            marginTop: "3px",
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between"
-          }}
-        >
-          <div>
-            <div style={{ fontWeight: "600", fontSize: "17px" }}>
+        <div>
+          {/* <div style={{ fontWeight: "600", fontSize: "17px"}} className="col-12 ">
               {props.name}
-            </div>
-            <div style={{ fontWeight: "lighter", color: "black" }}>
-              {props.location}
-            </div>
-            <div
-              style={{ fontWeight: "600", fontSize: "17px", display: "flex" }}
+            </div> */}
+          <Grid container wrap="wrap">
+            <Grid item xs={12} sm={12} md={12} lg={12}>
+              <img
+                src={props.image[0]}
+                alt=""
+                style={{
+                  height: "280px",
+                  width: "100%",
+                  objectFit: "cover",
+                  borderRadius: "20px",
+                  cursor: "pointer"
+                }}
+              />
+            </Grid>
+            <Grid
+              item
+              xs={7}
+              sm={7}
+              md={7}
+              lg={7}
+              sx={{ fontWeight: "600", fontSize: "17px" }}
             >
-              ${props.dailyRate}{" "}
-              <div style={{ fontWeight: "lighter" }}> /night</div>
-            </div>
+              {" "}
+              {props.name}
+            </Grid>
+            <Grid
+              container
+              item
+              xs={5}
+              sm={5}
+              md={5}
+              lg={5}
+              justifyContent="flex-end"
+            >
+              <AiFillStar size={18} />
+              {props.rating}
+            </Grid>
+          </Grid>
+          <div style={{ fontWeight: "lighter", color: "black" }}>
+            {props.location}
           </div>
-          <div style={{ display: "flex" }}>
+          <div style={{ fontWeight: "600", fontSize: "17px", display: "flex" }}>
+            ${props.dailyRate}{" "}
+            <div style={{ fontWeight: "lighter" }}> /night</div>
+          </div>
+        </div>
+        {/* <div style={{ display: "flex" }}>
             <AiFillStar size={18} />
             <div
               style={{
@@ -54,10 +84,9 @@ const ListingTemplate = (props) => {
                 marginTop: "-3px"
               }}
             >
-              {props.ratings}
+              {props.rating}
             </div>
-          </div>
-        </div>
+          </div> */}
       </div>
     </div>
   );
