@@ -1,0 +1,25 @@
+.swiperslide .rounditem {
+    width: 280px;
+    height: 280px;
+    border-radius: 25px;
+   
+    overflow: hidden;
+   }
+
+.swiper-button-prev {
+    opacity: 0.3;
+}
+
+.swiper-button-prev:hover {
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.swiper-button-next {
+    opacity: 0.3;
+}
+
+.swiper-button-next:hover {
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+}

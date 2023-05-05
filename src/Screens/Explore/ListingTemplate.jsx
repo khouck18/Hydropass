@@ -4,6 +4,7 @@ import { Grid } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { individualListingActions } from "../IndividualListing/IndividualListingSlice";
 import { useNavigate } from "react-router";
+import ImageSwiper from "./ImageSwiper.jsx";
 
 const ListingTemplate = (props) => {
   const dispatch = useDispatch();
@@ -15,67 +16,70 @@ const ListingTemplate = (props) => {
     navigate("/listing");
   };
   return (
-    <div style={{ cursor: "pointer" }} onClick={setListingInformation}>
+    <Grid
+      container
+      item
+      xs={12}
+      sm={12}
+      md={12}
+      lg={12}
+      sx={{ justifyContent: "center", display: "flex", width: "auto" }}
+    >
       <div
         style={{
-          borderRadius: "20px",
-          marginLeft: "2%",
-          marginRight: "2%"
+          borderRadius: "20px"
         }}
         className={`${css.image}`}
       >
-        <div>
-          {/* <div style={{ fontWeight: "600", fontSize: "17px"}} className="col-12 ">
-              {props.name}
-            </div> */}
-          <Grid container wrap="wrap">
-            <Grid item xs={12} sm={12} md={12} lg={12}>
-              <img
-                src={props.image[0]}
-                alt=""
-                style={{
-                  height: "280px",
-                  width: "100%",
-                  objectFit: "cover",
-                  borderRadius: "20px",
-                  cursor: "pointer"
-                }}
-              />
-            </Grid>
-            <Grid
-              item
-              xs={7}
-              sm={7}
-              md={7}
-              lg={7}
-              sx={{ fontWeight: "600", fontSize: "17px" }}
+        {/* <img
+          src={props.image[0]}
+          alt=""
+          style={{
+            height: "280px",
+            width: "280px",
+            objectFit: "cover",
+            borderRadius: "20px"
+          }}
+        /> */}
+        <ImageSwiper images={props.image} />
+        <div
+          style={{
+            marginTop: "3px",
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            cursor: "pointer"
+          }}
+          onClick={setListingInformation}
+        >
+          <div>
+            <div
+              style={{
+                fontWeight: "600",
+                fontSize: "17px",
+                maxWidth: "200px"
+              }}
             >
-              {" "}
               {props.name}
-            </Grid>
-            <Grid
-              container
-              item
-              xs={5}
-              sm={5}
-              md={5}
-              lg={5}
-              justifyContent="flex-end"
+            </div>
+            <div
+              style={{
+                fontWeight: "lighter",
+                color: "black",
+                maxWidth: "230px"
+              }}
             >
-              <AiFillStar size={18} />
-              {props.rating}
-            </Grid>
-          </Grid>
-          <div style={{ fontWeight: "lighter", color: "black" }}>
-            {props.location}
+              {props.location}
+            </div>
+            <div
+              style={{ fontWeight: "600", fontSize: "17px", display: "flex" }}
+            >
+              ${props.dailyRate}{" "}
+              <div style={{ fontWeight: "lighter" }}> /night</div>
+            </div>
           </div>
-          <div style={{ fontWeight: "600", fontSize: "17px", display: "flex" }}>
-            ${props.dailyRate}{" "}
-            <div style={{ fontWeight: "lighter" }}> /night</div>
-          </div>
-        </div>
-        {/* <div style={{ display: "flex" }}>
-            <AiFillStar size={18} />
+          <div style={{ display: "flex" }}>
+            <AiFillStar size={18} style={{ marginTop: "3px" }} />
             <div
               style={{
                 fontWeight: "lighter",
@@ -86,9 +90,78 @@ const ListingTemplate = (props) => {
             >
               {props.rating}
             </div>
-          </div> */}
+          </div>
+        </div>
       </div>
-    </div>
+    </Grid>
+
+    // {/* <div
+    //   style={{
+    //     borderRadius: "20px",
+    //     cursor: "pointer"
+    //   }}
+    //   onClick={setListingInformation}
+    //   className={`${css.image}`}
+    // >
+    //   <img
+    //     src={props.image[0]}
+    //     alt=""
+    //     style={{
+    //       height: "280px",
+    //       width: "280px",
+    //       objectFit: "cover",
+    //       borderRadius: "20px"
+    //     }}
+    //   />
+    //   <div
+    //     style={{
+    //       marginTop: "3px",
+    //       display: "flex",
+    //       flexDirection: "row",
+    //       justifyContent: "space-between"
+    //     }}
+    //   >
+    //     <div>
+    //       <div
+    //         style={{
+    //           fontWeight: "600",
+    //           fontSize: "17px",
+    //           maxWidth: "200px",
+    //         }}
+    //       >
+    //         {props.name}
+    //       </div>
+    //       <div
+    //         style={{
+    //           fontWeight: "lighter",
+    //           color: "black",
+    //           maxWidth: "230px"
+    //         }}
+    //       >
+    //         {props.location}
+    //       </div>
+    //       <div
+    //         style={{ fontWeight: "600", fontSize: "17px", display: "flex" }}
+    //       >
+    //         ${props.dailyRate}{" "}
+    //         <div style={{ fontWeight: "lighter" }}> /night</div>
+    //       </div>
+    //     </div>
+    //     <div style={{ display: "flex" }}>
+    //       <AiFillStar size={18} style={{ marginTop: "3px" }} />
+    //       <div
+    //         style={{
+    //           fontWeight: "lighter",
+    //           justifyContent: "center",
+    //           alignItems: "center",
+    //           marginTop: "-3px"
+    //         }}
+    //       >
+    //         {props.rating}
+    //       </div>
+    //     </div>
+    //   </div>
+    // </div> */}
   );
 };
 

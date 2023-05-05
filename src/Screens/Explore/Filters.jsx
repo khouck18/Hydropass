@@ -16,12 +16,13 @@ import ScubaDivingFilled from "../../Images/ScubaDivingFilled.svg";
 import SailBoatFilled from "../../Images/SailBoatFilled.svg";
 import SnorkelingFilled from "../../Images/SnorkelingFilled.svg";
 import CampingFilled from "../../Images/CampingFilled.svg";
-import FilterBox from "./FilterBox.jsx";
+import CategoryFilterBox from "./CategoryFilterBox.jsx";
 import css from "./Filters.module.css";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import FilterListIcon from "@mui/icons-material/FilterList";
+import ActivityFilterBox from "./ActivityFilterBox";
+import { useState, useEffect } from "react";
 
-const typeFilters = [
+const categoryFilters = [
   {
     id: 1,
     name: "Oceans",
@@ -51,12 +52,12 @@ const filters = [
   },
   {
     id: 3,
-    name: "JetSki",
+    name: "Jet Skiing",
     icon: JetSkiFilled
   },
   {
     id: 4,
-    name: "FishingPole",
+    name: "Fishing",
     icon: FishingPoleFilled
   },
   {
@@ -66,7 +67,7 @@ const filters = [
   },
   {
     id: 6,
-    name: "Boat",
+    name: "Boating",
     icon: BoatFilled
   },
   {
@@ -81,7 +82,7 @@ const filters = [
   },
   {
     id: 9,
-    name: "Beach",
+    name: "Beaches",
     icon: BeachFilled
   },
   {
@@ -96,12 +97,12 @@ const filters = [
   },
   {
     id: 12,
-    name: "InnerTube",
+    name: "Tubing",
     icon: InnerTubeFilled
   },
   {
     id: 13,
-    name: "Kayak",
+    name: "Kayaking",
     icon: KayakFilled
   },
   {
@@ -116,7 +117,7 @@ const filters = [
   },
   {
     id: 16,
-    name: "SailBoat",
+    name: "Sailing",
     icon: SailBoatFilled
   },
   {
@@ -132,11 +133,18 @@ const filters = [
 ];
 
 const Filters = () => {
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+
   return (
     <div
       style={{
         display: "flex",
-        flexDirection: "column"
+        flexDirection: "column",
+        transition: ""
       }}
     >
       <div
@@ -159,7 +167,10 @@ const Filters = () => {
           }}
         >
           <div style={{ width: "auto" }}>Water Type: </div>
-          <FilterBox listofFilters={typeFilters} numberofSlides="3" />
+          <CategoryFilterBox
+            listofFilters={categoryFilters}
+            numberofSlides="3"
+          />
         </div>
         <div
           style={{
@@ -173,7 +184,7 @@ const Filters = () => {
           }}
         >
           <div style={{ width: "auto" }}>Activity Type:</div>
-          <FilterBox listofFilters={filters} numberofSlides="12" />
+          <ActivityFilterBox listofFilters={filters} numberofSlides="9" />
         </div>
 
         <div
