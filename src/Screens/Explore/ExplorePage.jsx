@@ -12,6 +12,8 @@ import Filters from "./Filters";
 import { useDispatch, useSelector } from "react-redux";
 import AuthContext from "../../Contexts/AuthContext";
 import { GetListings } from "./ExplorePageActions";
+import ListingLoader from "./ListingLoader.jsx";
+import FeatureLoader from "./FeatureLoader.jsx";
 
 function ExplorePage() {
   const dispatch = useDispatch();
@@ -32,6 +34,8 @@ function ExplorePage() {
     (state) => state.explorePage.activityFilter
   );
 
+  const isLoading = useSelector((state) => state.explorePage.loading);
+
   const filterCategoryListInformation =
     categoryFilterValue.length !== 0
       ? allListingInformation.filter((listing) =>
@@ -40,13 +44,16 @@ function ExplorePage() {
       : allListingInformation;
   const filterListInformation =
     activityFilterValue.length !== 0
-      ? filterCategoryListInformation.filter(
-          (listing) =>
-            activityFilterValue.some((activity) =>
-              listing.activities.includes(activity)
-            )
+      ? filterCategoryListInformation.filter((listing) =>
+          activityFilterValue.some((activity) =>
+            listing.activities.includes(activity)
+          )
         )
       : filterCategoryListInformation;
+
+  useEffect(() => {
+    dispatch(GetListings({ apiBaseUrl, auth }));
+  }, []);
 
   const featureListingInformation =
     allListingInformation[0].images.length > 0
@@ -61,9 +68,6 @@ function ExplorePage() {
             category: ""
           }
         ];
-  useEffect(() => {
-    dispatch(GetListings({ apiBaseUrl, auth }));
-  }, );
 
   const prevSlide = () => {
     const isFirstSlide = currentIndex === 0;
@@ -106,133 +110,139 @@ function ExplorePage() {
           width: "100"
         }}
       >
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            backgroundImage: `url(${featureListingInformation[currentIndex].images[0]})`,
-            backgroundAttachment: "scroll",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "cover",
-            transitionDuration: "1000ms"
-          }}
-          className={`${temp.blurnround}`}
-        ></div>
-        <div>
-          <div
-            style={{
-              left: 0,
-              width: "min-content",
-              zIndex: 1
-            }}
-            className={`${temp.nextbutton}`}
-          >
-            <BsChevronLeft
-              style={{ backgroundColor: "rgba(0, 0, 0, 0.4)" }}
-              onClick={prevSlide}
-              size={45}
-              color="white"
-            />
-          </div>
-          <div className={`${temp.nextbutton}`} style={{ zIndex: 1 }}>
-            <BsChevronRight
-              style={{ backgroundColor: "rgba(0, 0, 0, 0.4)" }}
-              onClick={nextSlide}
-              size={45}
-              color="white"
-            />
-          </div>
-        </div>
+        {isLoading === true && <FeatureLoader />}
+        {isLoading !== true && (
+          <div>
+            <div
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+                backgroundImage: `url(${featureListingInformation[currentIndex].images[0]})`,
+                backgroundAttachment: "scroll",
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
+                backgroundSize: "cover",
+                transitionDuration: "1000ms"
+              }}
+              className={`${temp.blurnround}`}
+            ></div>
+            <div>
+              <div
+                style={{
+                  left: 0,
+                  width: "min-content",
+                  zIndex: 1
+                }}
+                className={`${temp.nextbutton}`}
+              >
+                <BsChevronLeft
+                  style={{ backgroundColor: "rgba(0, 0, 0, 0.4)" }}
+                  onClick={prevSlide}
+                  size={45}
+                  color="white"
+                />
+              </div>
+              <div className={`${temp.nextbutton}`} style={{ zIndex: 1 }}>
+                <BsChevronRight
+                  style={{ backgroundColor: "rgba(0, 0, 0, 0.4)" }}
+                  onClick={nextSlide}
+                  size={45}
+                  color="white"
+                />
+              </div>
+            </div>
+            <div
+              //className={`${temp.innerallListingInformation}`}
+              style={{
+                position: "absolute",
+                gridRow: "auto",
+                width: "100%",
+                maxWidth: "100%",
+                height: "80%",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "center",
+                overflowX: "hidden"
+              }}
+            >
+              <div
+                style={{
+                  height: "60%",
+                  maxWidth: "25%",
+                  width: "20%",
+                  backgroundImage: `url(${
+                    featureListingInformation[getPreviousIndex(currentIndex)]
+                      .images[0]
+                  })`,
+                  backgroundPosition: "center",
+                  backgroundRepeat: "no-repeat",
+                  backgroundSize: "cover",
+                  transform: "translateX(-60%) translateY(40%)",
+                  borderRadius: "25px",
+                  transitionDuration: "1000ms"
+                }}
+                className={`${temp.brightness}`}
+              />
+              <div
+                style={{
+                  height: "100%",
+                  width: "50%",
+                  backgroundImage: `url(${featureListingInformation[currentIndex].images[0]})`,
+                  backgroundPosition: "center",
+                  backgroundRepeat: "no-repeat",
+                  backgroundSize: "cover",
+                  borderRadius: "25px",
+                  transitionDuration: "1000ms"
+                }}
+              />
+              <div
+                style={{
+                  height: "60%",
+                  width: "20%",
+                  backgroundImage: `url(${
+                    featureListingInformation[getNextIndex(currentIndex)]
+                      .images[0]
+                  })`,
 
-        <div
-          //className={`${temp.innerallListingInformation}`}
-          style={{
-            position: "absolute",
-            gridRow: "auto",
-            width: "100%",
-            maxWidth: "100%",
-            height: "80%",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "center",
-            overflowX: "hidden"
-          }}
-        >
-          <div
-            style={{
-              height: "60%",
-              maxWidth: "25%",
-              width: "20%",
-              backgroundImage: `url(${
-                featureListingInformation[getPreviousIndex(currentIndex)]
-                  .images[0]
-              })`,
-              backgroundPosition: "center",
-              backgroundRepeat: "no-repeat",
-              backgroundSize: "cover",
-              transform: "translateX(-60%) translateY(40%)",
-              borderRadius: "25px",
-              transitionDuration: "1000ms"
-            }}
-            className={`${temp.brightness}`}
-          />
-          <div
-            style={{
-              height: "100%",
-              width: "50%",
-              backgroundImage: `url(${featureListingInformation[currentIndex].images[0]})`,
-              backgroundPosition: "center",
-              backgroundRepeat: "no-repeat",
-              backgroundSize: "cover",
-              borderRadius: "25px",
-              transitionDuration: "1000ms"
-            }}
-          />
-          <div
-            style={{
-              height: "60%",
-              width: "20%",
-              backgroundImage: `url(${
-                featureListingInformation[getNextIndex(currentIndex)].images[0]
-              })`,
-              backgroundPosition: "center",
-              backgroundRepeat: "no-repeat",
-              backgroundSize: "cover",
-              transform: "translateX(70%) translateY(40%)",
-              borderRadius: "25px",
-              transitionDuration: "1000ms"
-            }}
-            className={`${temp.brightness}`}
-          />
-        </div>
-        <div
-          style={{
-            justifyContent: "center",
-            position: "absolute",
-            gridRow: "auto",
-            width: "50%",
-            height: "10%",
-            top: "90%",
-            left: "25%",
-            borderRadius: "25px"
-          }}
-        >
-          <div style={{}}>
-            <HorizontalListing
-              name={featureListingInformation[currentIndex].name}
-              location={featureListingInformation[currentIndex].location}
-              rating={featureListingInformation[currentIndex].rating}
-              dailyRate={featureListingInformation[currentIndex].dailyRate}
-            />
+                  backgroundPosition: "center",
+                  backgroundRepeat: "no-repeat",
+                  backgroundSize: "cover",
+                  transform: "translateX(70%) translateY(40%)",
+                  borderRadius: "25px",
+                  transitionDuration: "1000ms"
+                }}
+                className={`${temp.brightness}`}
+              />
+            </div>
+            <div
+              style={{
+                justifyContent: "center",
+                position: "absolute",
+                gridRow: "auto",
+                width: "50%",
+                height: "10%",
+                top: "90%",
+                left: "25%",
+                borderRadius: "25px"
+              }}
+            >
+              <div style={{}}>
+                <HorizontalListing
+                  name={featureListingInformation[currentIndex].name}
+                  location={featureListingInformation[currentIndex].location}
+                  rating={featureListingInformation[currentIndex].rating}
+                  dailyRate={featureListingInformation[currentIndex].dailyRate}
+                />
+              </div>
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       <div
@@ -279,38 +289,41 @@ function ExplorePage() {
 
       <div style={{ marginLeft: "5%", marginRight: "5%", paddingTop: "42px" }}>
         <Box>
-          <Grid
-            container
-            direction="row"
-            alignItems="center"
-            rowSpacing={6}
-            sx={{ paddingTop: "42px", alignItems: "stretch" }}
-            //columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-          >
-            {filterListInformation.map((listing) => {
-              return (
-                <Grid
-                  container
-                  item
-                  justifyContent="center"
-                  xs={3}
-                  sm={3}
-                  md={3}
-                  lg={3}
-                  sx={{}}
-                >
-                  <ListingTemplate
-                    location={listing.location}
-                    dailyRate={listing.dailyRate}
-                    image={listing.images}
-                    rating={listing.rating}
-                    name={listing.name}
-                    listingInfo={listing}
-                  />
-                </Grid>
-              );
-            })}
-          </Grid>
+          {isLoading === true && <ListingLoader />}
+          {isLoading !== true && (
+            <Grid
+              container
+              direction="row"
+              alignItems="center"
+              rowSpacing={6}
+              sx={{ paddingTop: "42px", alignItems: "stretch" }}
+              //columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+            >
+              {filterListInformation.map((listing) => {
+                return (
+                  <Grid
+                    container
+                    item
+                    justifyContent="center"
+                    xs={3}
+                    sm={3}
+                    md={3}
+                    lg={3}
+                    sx={{}}
+                  >
+                    <ListingTemplate
+                      location={listing.location}
+                      dailyRate={listing.dailyRate}
+                      image={listing.images}
+                      rating={listing.rating}
+                      name={listing.name}
+                      listingInfo={listing}
+                    />
+                  </Grid>
+                );
+              })}
+            </Grid>
+          )}
         </Box>
       </div>
     </div>

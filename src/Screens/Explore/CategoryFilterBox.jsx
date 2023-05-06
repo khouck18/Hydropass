@@ -76,11 +76,11 @@ const CategoryFilterBox = (props) => {
               style={{
                 display: "flex",
                 flexDirection: "column",
-                alignItems: "stretch",
+                alignItems: "center",
                 justifyContent: "center",
                 borderBottomWidth: "2px",
                 cursor: "pointer",
-                fontWeight: "lighter",
+                fontWeight: "lighter"
                 //paddingTop:"26px" //TODO: FIX PADDING ERROR
               }}
               className={`${css.filter} ${
