@@ -8,7 +8,7 @@ export default function ListingLoader(props) {
       direction="row"
       alignItems="center"
       rowSpacing={6}
-      sx={{ paddingTop: "42px", alignItems: "stretch" }}
+      sx={{ paddingTop: "42px", alignItems: "center" }}
       justifyContent={"space-between"}
     >
       <Grid

@@ -26,9 +26,7 @@ const ListingTemplate = (props) => {
       sx={{ justifyContent: "center", display: "flex", width: "auto" }}
     >
       <div
-        style={{
-          borderRadius: "20px"
-        }}
+
         className={`${css.image}`}
       >
         {/* <img
@@ -41,7 +39,7 @@ const ListingTemplate = (props) => {
             borderRadius: "20px"
           }}
         /> */}
-        <ImageSwiper images={props.image} />
+        <ImageSwiper images={props.image} width="280px" height="280px" />
         <div
           style={{
             marginTop: "3px",

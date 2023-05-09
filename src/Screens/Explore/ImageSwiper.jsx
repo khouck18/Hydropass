@@ -10,7 +10,7 @@ import "swiper/css/scrollbar";
 
 const ImageSwiper = (props) => {
   return (
-    <div style={{ height: "280px", width: "280px" }}>
+    <div style={{ height: props.height, width: props.width }}>
       <Swiper
         //onReachEnd={handleReachEnd}
         // install Swiper modules
@@ -20,17 +20,21 @@ const ImageSwiper = (props) => {
         pagination={{ clickable: true }}
         style={{
           "--swiper-navigation-color": "white",
-          "--swiper-pagination-color": "white"
+          "--swiper-pagination-color": "white",
+          borderRadius: "25px"
         }}
       >
         {props.images.map((image) => {
           return (
             <SwiperSlide>
               <div className="swiperslide">
-                <div className="rounditem" style={{ objectFit: "cover" }}>
+                <div
+                  className="rounditem"
+                  style={{ objectFit: "cover", objectPosition: "center" }}
+                >
                   <img
-                    width="280px"
-                    height="280px"
+                    width={"100%"}
+                    height={"100%"}
                     src={image}
                     alt={"No Image"}
                   />

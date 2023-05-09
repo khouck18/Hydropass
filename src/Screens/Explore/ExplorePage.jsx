@@ -14,6 +14,9 @@ import AuthContext from "../../Contexts/AuthContext";
 import { GetListings } from "./ExplorePageActions";
 import ListingLoader from "./ListingLoader.jsx";
 import FeatureLoader from "./FeatureLoader.jsx";
+import EmptyListing from "./EmptyListing";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination } from "swiper";
 
 function ExplorePage() {
   const dispatch = useDispatch();
@@ -193,14 +196,38 @@ function ExplorePage() {
                 style={{
                   height: "100%",
                   width: "50%",
-                  backgroundImage: `url(${featureListingInformation[currentIndex].images[0]})`,
-                  backgroundPosition: "center",
-                  backgroundRepeat: "no-repeat",
-                  backgroundSize: "cover",
-                  borderRadius: "25px",
                   transitionDuration: "1000ms"
                 }}
-              />
+              >
+                <Swiper
+                  modules={[Pagination]}
+                  slidesPerView={1}
+                  pagination={{ clickable: true }}
+                  style={{
+                    "--swiper-pagination-color": "white",
+                    borderRadius: "25px",
+                    height: "100%"
+                  }}
+                >
+                  {featureListingInformation[currentIndex].images.map(
+                    (image) => {
+                      return (
+                        <SwiperSlide>
+                          <div
+                            className="rounditem"
+                            style={{
+                              objectFit: "cover",
+                              objectPosition: "center"
+                            }}
+                          >
+                            <img width={"100%"} src={image} alt={"No Image"} />
+                          </div>
+                        </SwiperSlide>
+                      );
+                    }
+                  )}
+                </Swiper>
+              </div>
               <div
                 style={{
                   height: "60%",
@@ -288,8 +315,13 @@ function ExplorePage() {
       </div>
 
       <div style={{ marginLeft: "5%", marginRight: "5%", paddingTop: "42px" }}>
+        {filterListInformation.length === 0 && <EmptyListing />}
         <Box>
-          {isLoading === true && <ListingLoader />}
+          {isLoading === true && (
+            <div style={{ height: "70vh" }}>
+              <ListingLoader />
+            </div>
+          )}
           {isLoading !== true && (
             <Grid
               container
