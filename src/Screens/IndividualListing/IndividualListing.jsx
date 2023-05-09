@@ -1,24 +1,35 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import GoogleMap from "../../Components/GoogleMap";
 import IndividualListingCheckoutCard from "./IndividualListingCheckoutCard";
 import IndividualListingImageGallery from "./IndividualListingImageGallery";
 import css from "./IndividualListing.module.css";
 import IndividualListingDescription from "./IndividualListingDescription";
+import { GetIndividualListing } from "./IndividualListingActions";
 import { Grid, Box } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useLocation } from "react-router-dom";
+import AuthContext from "../../Contexts/AuthContext";
+
 
 const IndividualListing = () => {
+  const dispatch = useDispatch();
+  const auth = useContext(AuthContext);
+  const apiBaseUrl = `${process.env.REACT_APP_API_URL}`;
+  const location = useLocation();
+  const listingID = location.pathname.split("/").pop();
+
   const listingInformation = useSelector(
     (state) => state.individualListing.listingInformation
   );
 
   useEffect(() => {
-    console.log(listingInformation);
-  }, [listingInformation]);
+    // eslint-disable-next-line no-unused-expressions
+    listingInformation.propertyName === "" ? dispatch(GetIndividualListing({apiBaseUrl, auth, listingID})) : null;
+  }, [listingInformation, listingID, apiBaseUrl, auth, dispatch]);
 
   const col5Style = {
     height: "75vh",
-    backgroundImage: `url(${listingInformation.images[0]})`,
+    backgroundImage: listingInformation.images.length > 0 ? `url(${listingInformation.images[0]})` : null,
     backgroundPosition: "left 25%",
     backgroundSize: "auto 100%",
     backgroundRepeat: "no-repeat",
@@ -32,7 +43,9 @@ const IndividualListing = () => {
           className={css.glassBackground}
           sx={{ transform: "translateX(30%)" }}
         >
-          <IndividualListingImageGallery />
+          <Box sx={{pt: "10%", ml: "0%", pl: "10%", width: "95%"}}>
+            <IndividualListingImageGallery />
+          </Box>
         </Box>
       </Grid>
       <Grid item xs={4} sm={4} md={4} lg={4}>

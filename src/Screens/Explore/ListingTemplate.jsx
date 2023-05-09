@@ -12,7 +12,7 @@ const ListingTemplate = (props) => {
   const setListingInformation = async () => {
     try {
       await dispatch(updateListingInformation(props.listingInfo)).unwrap();
-      navigate("/listing");
+      navigate(`/listing/${props.listingInfo.listing_id}`);
     } catch (err) {
       throw new Error("An error occurred while updating listing information: ", err);        
     }

@@ -5,6 +5,7 @@ import MessageIcon from "@mui/icons-material/Message";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import Logo from "../Images/logo_transparency.png";
+import css from "./Navbar.module.css";
 
 const ElevationScroll = (props) => {
     const { children, window } = props;
@@ -45,7 +46,7 @@ const Navbar = (props) => {
 
     return (
         <ElevationScroll {...props} color="coastalBlue">
-            <AppBar color={isTop ? "transparent" : "paleBlue"}>
+            <AppBar color="transparent" className={isTop ? "" : css.glassBackground}>
                 <Toolbar>
                     <Grid container spacing={2} sx={{ pb: 2, mt: 1, ml: 2 }}>
                         <Grid item xs={12} sm={2} md={2} lg={2} sx={{ mr: 5 }}>
@@ -55,22 +56,22 @@ const Navbar = (props) => {
                         </Grid>
                         <Grid item xs={12} sm={2} md={2} lg={1} sx={{ ml: 5, mr: 5 }}>
                             <Link to="/explore" className="text-decoration-none">
-                                <Typography variant={"h4"} sx={{ color: "#a23520", textShadow: "0 0 5px white"}}>
+                                <Typography variant={"h4"} sx={{ color: "coastalBlue.main", textShadow: "0 0 2px black"}}>
                                     Explore
                                 </Typography>
                             </Link>
                         </Grid>
                         <Grid item xs={5} sm={5} md={4} lg={3}>
                             <Link to="/host" className="text-decoration-none">
-                                <Typography variant={"h4"} sx={{ color: "#a23520", textShadow: "0 0 2px white"}}>
+                                <Typography variant={"h4"} sx={{ color: "coastalBlue.main", textShadow: "0 0 2px black"}}>
                                     Become a Host
                                 </Typography>
                             </Link>
                         </Grid>
                         <Grid item xs={4} sm={4} md={5} lg={5} display="flex" justifyContent="right">
-                            <NotificationsIcon color="burntOrange" sx={{ fontSize: 50, mr: 2}}/>
-                            <MessageIcon color="burntOrange" sx={{ fontSize: 50, mr: 2 }}/>
-                            <Button variant="contained"  sx={{ px: 5, height: "40%", mt: "5px", color: "white.main", backgroundColor: "burntOrange.main", "&:hover": {backgroundColor: "sunsetOrange.main"} }}>Login</Button>
+                            <NotificationsIcon color="coastalBlue" sx={{ fontSize: 50, mr: 2}}/>
+                            <MessageIcon color="coastalBlue" sx={{ fontSize: 50, mr: 2 }}/>
+                            <Button variant="contained"  sx={{ px: 5, height: "40%", mt: "5px", color: "white.main", backgroundColor: "coastalBlue.main", "&:hover": {backgroundColor: "darkBlue.main"} }}>Login</Button>
                         </Grid>
                     </Grid>
                 </Toolbar>

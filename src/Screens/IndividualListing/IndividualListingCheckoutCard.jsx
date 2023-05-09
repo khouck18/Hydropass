@@ -126,6 +126,7 @@ const IndividualListingCheckoutCard = () => {
             <Grid item xs={12} sm={12} md={12} lg={12} sx={{ mt: 2 }}>
               <Button
                 variant="contained"
+                color="coastalBlue"
                 disabled={tripLength === "0"}
                 sx={{ width: "100%", py: 3 }}
               >

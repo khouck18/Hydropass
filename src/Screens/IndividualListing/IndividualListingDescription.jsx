@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
-import React from "react";
-import { Tooltip, Avatar, Button, Box, Typography, Grid } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Tooltip, Avatar, Button, Box, Typography, Grid, Modal } from "@mui/material";
 import { useSelector } from "react-redux";
 import StarIcon from "@mui/icons-material/Star";
 import BeachFilledSecondary from "../../Images/BeachFilledSecondary.svg";
@@ -22,13 +22,37 @@ import SurfboardFilledSecondary from "../../Images/SurfboardFilledSecondary.svg"
 import SwimmingFilledSecondary from "../../Images/SwimmingFilledSecondary.svg";
 import WaterSkisFilledSecondary from "../../Images/WaterSkisFilledSecondary.svg";
 
+const modalStyle = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 800,
+  bgcolor: "white.main",
+  border: "2px solid paleBlue.main",
+  borderRadius: "25px",
+  boxShadow: 24,
+  p: 4,
+};
+
 const IndividualListingDescription = () => {
+  const [modifiedDescription, setModifiedDescription] = useState("");
+  const [longDescription, setLongDescription] = useState(false);
+  const [modifiedRules, setModifiedRules] = useState("");
+  const [longRules, setLongRules] = useState(false);
+  const [openDescriptionModal, setOpenDescriptionModal] = React.useState(false);
+  const handleOpenDescriptionModal = () => setOpenDescriptionModal(true);
+  const handleCloseDescriptionModal = () => setOpenDescriptionModal(false);
+  const [openRulesModal, setOpenRulesModal] = React.useState(false);
+  const handleOpenRulesModal = () => setOpenRulesModal(true);
+  const handleCloseRulesModal = () => setOpenRulesModal(false);
   const listingInformation = useSelector(
     (state) => state.individualListing.listingInformation
   );
 
   const iconList = [];
-  listingInformation.activities.forEach((activity) => {
+  // eslint-disable-next-line no-unused-expressions
+  listingInformation.activities.length > 0 ? listingInformation.activities.forEach((activity) => {
     switch (activity) {
       case "Beaches":
         iconList.push({
@@ -114,6 +138,12 @@ const IndividualListingDescription = () => {
           description: "Scuba Diving"
         });
         break;
+      case "Snorkeling":
+        iconList.push({
+          iconName: SnorkelingFilledSecondary,
+          description: "Snorkeling"
+        });
+        break;
       case "Surfing":
         iconList.push({
           iconName: SurfboardFilledSecondary,
@@ -135,18 +165,35 @@ const IndividualListingDescription = () => {
       default:
         break;
     }
-  });
+  }) : null;
 
-  const tempParsedString = listingInformation.location.split(",");
+  const generalLocation = listingInformation.location !== "" ? listingInformation.location.split(",") : "";
 
-  const str =
-    "Welcome to one of the most beautiful and pristine lakes in North America - Lake Sutherland. Situated between entrances to Olympic National Park, this spectacular lake front cottage is 608 sq ft with high ceilings, a modern design and a 1,400 sq ft dock to take in the sweeping views of the mountains. The cabin's gracious floor to ceiling windows let you soak in the views while you cozy up by the fireplace. Whether you are inside or out, you will be getting your much needed dose of nature.";
+  useEffect(() => {
+    if (listingInformation.description.length > 500) {
+      setLongDescription(true);
+      setModifiedDescription(listingInformation.description.slice(0, 500) + "...");
+    } else {
+      setLongDescription(false);
+      setModifiedDescription(listingInformation.description);
+    }
+  }, [listingInformation.description]);
+
+  useEffect(() => {
+    if (listingInformation.rules.length > 200) {
+      setLongRules(true);
+      setModifiedRules(listingInformation.rules.slice(0, 200) + "...");
+    } else {
+      setLongRules(false);
+      setModifiedRules(listingInformation.rules);
+    }
+  }, [listingInformation.rules]);
 
   return (
     <Box sx={{ ms: 2, mr: 4 }}>
       <Typography variant="h3">{listingInformation.name}</Typography>
       <Typography variant="h5">
-        {tempParsedString[1]}, {tempParsedString[2]}
+        {generalLocation === "" ? "" : `${generalLocation[1]}, ${generalLocation[2]}`}
       </Typography>
       {iconList.map((icon) => {
         return (
@@ -162,11 +209,51 @@ const IndividualListingDescription = () => {
       })}
       <Box sx={{ mt: 5, pb: 4, borderBottom: "solid 1px gray" }}>
         <Typography variant="h5">About the Listing</Typography>
-        {listingInformation.description}
+        {modifiedDescription}
+        {longDescription ? 
+          <Box>
+            <Button variant="outlined" sx={{mt: 1}} onClick={handleOpenDescriptionModal} color="coastalBlue">View More</Button>
+            <Modal
+              open={openDescriptionModal}
+              onClose={handleCloseDescriptionModal}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+              <Box sx={modalStyle}>
+                <Typography id="modal-modal-title" variant="h6" component="h2" sx={{borderBottom: "solid 1px", borderColor: "paleBlue.main"}}>
+                  About the Listing
+                </Typography>
+                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                  {listingInformation.description}
+                </Typography>
+              </Box>
+            </Modal>
+          </Box>
+        : null}
       </Box>
       <Box sx={{ mt: 2, pb: 4, borderBottom: "solid 1px gray" }}>
         <Typography variant="h5">Listing Rules</Typography>
-        {listingInformation.rules}
+          {modifiedRules}
+          {longRules ? 
+            <Box>
+              <Button variant="outlined" sx={{mt: 1}} onClick={handleOpenRulesModal} color="coastalBlue">View More</Button>
+              <Modal
+                open={openRulesModal}
+                onClose={handleCloseRulesModal}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+              >
+                <Box sx={modalStyle}>
+                  <Typography id="modal-modal-title" variant="h6" component="h2" sx={{borderBottom: "solid 1px", borderColor: "paleBlue.main"}}>
+                    Listing Rules
+                  </Typography>
+                  <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                    {listingInformation.rules}
+                  </Typography>
+                </Box>
+              </Modal>
+            </Box>
+          : null}
       </Box>
       <Box sx={{ mt: 3 }}>
         <Grid container>
@@ -185,7 +272,7 @@ const IndividualListingDescription = () => {
             </Box>
           </Grid>
           <Grid item xs={4} sm={4} md={4} lg={4} sx={{ ms: 2, mt: 2 }}>
-            <Button variant="outlined" sx={{ py: 3 }}>
+            <Button color="coastalBlue" variant="outlined" sx={{ py: 3 }}>
               Contact Host
             </Button>
           </Grid>

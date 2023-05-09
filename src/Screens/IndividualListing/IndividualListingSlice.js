@@ -1,16 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
-// import { PostNewHost, PostNewListing } from "./HostActions";
+import { GetIndividualListing } from "./IndividualListingActions";
 
 const initialState = {
     listingInformation: {
         dailyRate: "",
-        listingImages: [],
+        images: [],
         maximumGuests: "",
-        propertyAddress: "",
-        propertyDescription: "",
+        location: "",
+        description: "",
         propertyName: "",
-        propertyRules: "",
-        selectedActivities: [],
+        rules: "",
+        activities: [],
         rating: "",
         reviews: []
     },
@@ -26,32 +26,21 @@ export const individualListingSlice = createSlice({
             state.listingInformation = action.payload;
         }
     },
-    // extraReducers: (builder) => {
-    //     builder
-    //         .addCase(PostNewHost.pending, (state) => {
-    //             state.loading = true;
-    //         })
-    //         .addCase(PostNewHost.fulfilled, (state) => {
-    //             state.loading = false;
-    //             state.error = null;
-    //         })
-    //         .addCase(PostNewHost.rejected, (state, action) => {
-    //             state.error = action.error.message;
-    //             state.loading = false;
-    //         });
-    //     builder
-    //         .addCase(PostNewListing.pending, (state) => {
-    //             state.loading = true;
-    //         })
-    //         .addCase(PostNewListing.fulfilled, (state) => {
-    //             state.loading = false;
-    //             state.error = null;
-    //         })
-    //         .addCase(PostNewListing.rejected, (state, action) => {
-    //             state.error = action.error.message;
-    //             state.loading = false;
-    //         });
-    // }
+    extraReducers: (builder) => {
+        builder
+            .addCase(GetIndividualListing.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(GetIndividualListing.fulfilled, (state, action) => {
+                state.listingInformation = action.payload;
+                state.loading = false;
+                state.error = null;
+            })
+            .addCase(GetIndividualListing.rejected, (state, action) => {
+                state.error = action.error.message;
+                state.loading = false;
+            });
+    }
 });
 
 
