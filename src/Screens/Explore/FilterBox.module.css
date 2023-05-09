@@ -12,3 +12,14 @@
     border-bottom: 1px solid white;
 }
 
+.filter:checked {
+    gap: 8px;
+    padding: 12px;
+    border-bottom: 1px solid transparent;
+    color: #949494;
+}
+
+.selected {
+    color: white;
+    border-bottom: 1px solid white;
+}

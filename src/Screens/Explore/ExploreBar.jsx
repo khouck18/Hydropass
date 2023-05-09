@@ -1,5 +1,4 @@
 "use client";
-import { borderLeft } from "@mui/system";
 import { BiSearch } from "react-icons/bi";
 
 const ExploreBar = () => {

@@ -1,5 +1,4 @@
-import { display, flexbox, grid, width } from "@mui/system";
-import css from "./HorizontalListingTemplate.module.css";
+
 import { AiFillStar } from "react-icons/ai";
 
 const HorizontalListing = (props) => {
