@@ -365,7 +365,7 @@ function ExplorePage() {
                     image={listing.images}
                     rating={listing.rating}
                     name={listing.name}
-                    listingInfo = {listing}
+                    listingInfo={listing}
                   />
                 </Grid>
               );

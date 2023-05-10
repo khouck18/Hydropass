@@ -73,7 +73,7 @@ const CreateListing = () => {
     "Sailing",
     "Scuba Diving",
     "Snorkeling",
-     "Surfing",
+    "Surfing",
     "Swimming",
     "Water Skiing",
   ];

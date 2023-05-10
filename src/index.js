@@ -47,7 +47,7 @@ root.render(
               <Route path="oauth-callback" element={<App />} />
               <Route path="home" element={<HomePage />} />
               <Route path="explore" element = {<Explore />} />
-              <Route path="listing" element={<IndividualListing />} />
+              <Route path="listing/:listingID" element={<IndividualListing />} />
               <Route path="host" element={<Host />} />
               <Route path="createListing" element={<CreateListing />} />
             </Route>

@@ -4,15 +4,18 @@ import { Grid } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { individualListingActions } from "../IndividualListing/IndividualListingSlice";
 import { useNavigate } from "react-router";
+import { updateListingInformation } from "./ExplorePageActions";
 
 const ListingTemplate = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const setListingInformation = () => {
-    dispatch(
-      individualListingActions.updateListingInformation(props.listingInfo)
-    );
-    navigate("/listing");
+  const setListingInformation = async () => {
+    try {
+      await dispatch(updateListingInformation(props.listingInfo)).unwrap();
+      navigate(`/listing/${props.listingInfo.listing_id}`);
+    } catch (err) {
+      throw new Error("An error occurred while updating listing information: ", err);        
+    }
   };
   return (
     <div style={{ cursor: "pointer" }} onClick={setListingInformation}>

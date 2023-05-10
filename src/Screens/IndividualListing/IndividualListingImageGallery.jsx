@@ -1,34 +1,47 @@
 import { Box } from "@mui/material";
 import ImageGallery from "react-image-gallery";
+import { useSelector } from "react-redux";
 import "react-image-gallery/styles/css/image-gallery.css";
 
 const IndividualListingImageGallery = () => {
+  const listingInformation = useSelector(
+    (state) => state.individualListing.listingInformation
+  );
 
-    const images = [
-        {
-          original: "https://picsum.photos/id/1018/1000/600/",
-          thumbnail: "https://picsum.photos/id/1018/250/150/",
-        },
-        {
-          original: "https://picsum.photos/id/1015/1000/600/",
-          thumbnail: "https://picsum.photos/id/1015/250/150/",
-        },
-        {
-          original: "https://picsum.photos/id/1019/1000/600/",
-          thumbnail: "https://picsum.photos/id/1019/250/150/",
-        },
-    ];
+  const listingImages = listingInformation.images.map((image) => ({
+    original: image,
+    thumbnail: "",
+  }));
 
-    return (
-        <Box sx={{ mt: 5, ms: 5 }}>
-            <ImageGallery 
-                items={images} 
-                showBullets={false} 
-                showPlayButton={false}
-                thumbnailPosition="bottom"
-            />
-        </Box>
-    );
+  return (
+    <Box sx={{ height: "60vh", width: "100%" }}>
+      <ImageGallery
+        items={listingImages}
+        showBullets={false}
+        showPlayButton={false}
+        thumbnailPosition="bottom"
+        renderCustomControls={() => null} // Hide the default navigation controls
+        renderItem={(item) => (
+          <div className="image-gallery-image">
+            <Box
+              sx={{ height: "100%", width: "100%" }}
+              className="image-wrapper"
+            >
+              <img
+                src={item.original}
+                alt=""
+                style={{
+                  width: "100%",
+                  maxHeight: "650px",
+                  objectFit: "contain",
+                }}
+              />
+            </Box>
+          </div>
+        )}
+      />
+    </Box>
+  );
 };
 
 export default IndividualListingImageGallery;
