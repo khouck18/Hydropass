@@ -14,6 +14,7 @@ import Host from "./Screens/Host/Host";
 import CreateListing from "./Screens/Host/CreateListing";
 import Explore from "./Screens/Explore/ExplorePage";
 import IndividualListing from "./Screens/IndividualListing/IndividualListing";
+import MessagingScreen from "./Components/MessagingScreen";
 
 const onSigninCallback = (user) => {
   const previousLocation = user.state?.location || "/";
@@ -50,6 +51,7 @@ root.render(
               <Route path="listing/:listingID" element={<IndividualListing />} />
               <Route path="host" element={<Host />} />
               <Route path="createListing" element={<CreateListing />} />
+              <Route path="messaging" element={<MessagingScreen />} />
             </Route>
           </Routes>
         </BrowserRouter>
