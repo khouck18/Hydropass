@@ -25,6 +25,9 @@ const HydropassTheme = createTheme({
       },
       lightGray: {
         main: "#f2f2f2"
+      },
+      silver: {
+        main: "#c0c0c0"
       }
     },
     // typography: {
