@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Box, Grid, Tabs, Tab, Typography } from "@mui/material";
 import MessagingScreen from "./MessagingScreen";
+import AccountSettingsCustomer from "./AccountSettingsCustomer";
 import { useTheme } from "@mui/material/styles";
 import PropTypes from "prop-types";
 import TableChartIcon from "@mui/icons-material/TableChart";
@@ -88,7 +89,8 @@ const CustomerHome = () => {
                         >
                             {tabItems.map((item, index) => {
                                 return (
-                                    <Tab 
+                                    <Tab
+                                        key={item.name} 
                                         label={
                                             <Grid container alignItems="center">
                                                 {item.icon}
@@ -110,7 +112,7 @@ const CustomerHome = () => {
                     Dashboard
                 </TabPanel>
                 <TabPanel value={value} index={1}>
-                    Account Settings
+                    <AccountSettingsCustomer />
                 </TabPanel>
                 <TabPanel value={value} index={2}>
                     Passes

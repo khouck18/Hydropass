@@ -61,6 +61,16 @@ const initialState = {
         ]
     },
   ],
+  userInformation: {
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    governmentID: "",
+    address: "",
+    username: "",
+    password: ""
+  },
   loading: false,
   error: null
 };

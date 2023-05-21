@@ -190,8 +190,8 @@ const MessagingScreen = () => {
                       {messages.messageHistory.map((message) => {
                         return message.sender === "You" ? (
                           <Grid container justifyContent="flex-end">
-                            <Grid item xs={6} />
-                            <Grid item xs={1} sx={{ color: `${theme.palette.silver.main}`}}>
+                            <Grid item xs={5} />
+                            <Grid item xs={1.5} sx={{ color: `${theme.palette.silver.main}`}}>
                               {message.timestamp}
                             </Grid>
                             <Grid item xs={3.75}>
@@ -225,10 +225,10 @@ const MessagingScreen = () => {
                                 {message.message}
                               </Typography>
                             </Grid>
-                            <Grid item xs={1} sx={{ color: `${theme.palette.silver.main}`}}>
+                            <Grid item xs={1.5} sx={{ color: `${theme.palette.silver.main}`}}>
                               {message.timestamp}
                             </Grid>
-                            <Grid item xs={6} />
+                            <Grid item xs={5} />
                           </Grid>
                         );
                       })}
