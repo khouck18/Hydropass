@@ -7,6 +7,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers-pro/AdapterDayjs";
 import { LicenseInfo } from "@mui/x-license-pro";
 import { ThemeProvider } from "@mui/material/styles";
 import HydropassTheme from "./Utils/ColorTheme";
+import { WebsocketProvider } from "./Contexts/WebsocketContext";
 
 const App = () => {
   LicenseInfo.setLicenseKey(
@@ -31,7 +32,7 @@ const App = () => {
     auth.isAuthenticated,
     auth.activeNavigator,
     auth.isLoading,
-    auth.signinRedirect
+    auth.signinRedirect,
   ]);
 
   return (
@@ -39,11 +40,13 @@ const App = () => {
     auth.isAuthenticated && (
       <div>
         <AuthContext.Provider value={auth}>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <ThemeProvider theme={HydropassTheme}>
-              <Layout />
-            </ThemeProvider>
-          </LocalizationProvider>
+          <WebsocketProvider senderId={auth.user?.profile.sub} auth={auth}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <ThemeProvider theme={HydropassTheme}>
+                <Layout />
+              </ThemeProvider>
+            </LocalizationProvider>
+          </WebsocketProvider>
         </AuthContext.Provider>
       </div>
     )

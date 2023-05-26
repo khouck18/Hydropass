@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import {
   Box,
   AppBar,
@@ -20,6 +20,8 @@ import SendIcon from "@mui/icons-material/Send";
 import { useTheme, styled } from "@mui/material/styles";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
+import AuthContext from "../../Contexts/AuthContext";
+import { useWebsocket } from "../../Contexts/WebsocketContext";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -86,13 +88,39 @@ const a11yProps = (index) => {
 
 const MessagingScreen = () => {
   const theme = useTheme();
+  const auth = useContext(AuthContext);
   const [value, setValue] = useState(0);
-
+  const [currentMessage, setCurrentMessage] = useState("");
   const allMessages = useSelector((state) => state.customer.messages);
+  const { socket, sendMessage } = useWebsocket();
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  const handleSendMessage = () => {
+    if (socket) {
+      sendMessage({"action": "sendMessage", "senderId": auth.user?.profile.sub, "recipientId": allMessages[0].contact.accountID, "text": currentMessage});
+      setCurrentMessage("");
+    }
+  };
+
+  useEffect(() => {
+    const fetchMessages = async () => {
+      // Send a request to the server to fetch the messages
+      const message = { type: "getMessages" };
+      socket.send(JSON.stringify(message));
+    };
+
+    if (socket && socket.readyState === WebSocket.OPEN) {
+      fetchMessages();
+    }
+
+    return () => {
+      // Clean up the effect if needed
+    };
+  }, [socket]);
+  
 
   return (
     <Card raised sx={{ height: "80vh", borderRadius: "25px"}}>
@@ -236,8 +264,12 @@ const MessagingScreen = () => {
                         <TextField
                           fullWidth
                           label="Message the Host"
+                          value={currentMessage}
+                          onChange={(e) => setCurrentMessage(e.target.value)}
                           InputProps={{
-                            endAdornment: <InputAdornment position="end"><SendIcon sx={{ fontSize: 40 }}/></InputAdornment>,
+                            endAdornment: <InputAdornment position="end" onClick={handleSendMessage}>
+                              <SendIcon sx={{ fontSize: 40 }}/>
+                            </InputAdornment>,
                           }}
                         />              
                       </Grid>
