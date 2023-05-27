@@ -19,9 +19,10 @@ import {
 import SendIcon from "@mui/icons-material/Send";
 import { useTheme, styled } from "@mui/material/styles";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import AuthContext from "../../Contexts/AuthContext";
 import { useWebsocket } from "../../Contexts/WebsocketContext";
+import { GetAllMessages } from "./CustomerActions";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -64,7 +65,7 @@ const TabPanel = (props) => {
       {...other}
     >
       {value === index && (
-        <Box sx={{ pt: 3, pb: 3}}>
+        <Box sx={{ pt: 3, pb: 3 }}>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -75,19 +76,20 @@ const TabPanel = (props) => {
 TabPanel.propTypes = {
   children: PropTypes.node,
   index: PropTypes.number.isRequired,
-  value: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired
 };
-
 
 const a11yProps = (index) => {
   return {
     id: `vertical-tab-${index}`,
-    "aria-controls": `vertical-tabpanel-${index}`,
+    "aria-controls": `vertical-tabpanel-${index}`
   };
 };
 
 const MessagingScreen = () => {
   const theme = useTheme();
+  const dispatch = useDispatch();
+  const apiBaseUrl = `${process.env.REACT_APP_API_URL}`;
   const auth = useContext(AuthContext);
   const [value, setValue] = useState(0);
   const [currentMessage, setCurrentMessage] = useState("");
@@ -100,52 +102,50 @@ const MessagingScreen = () => {
 
   const handleSendMessage = () => {
     if (socket) {
-      sendMessage({"action": "sendMessage", "senderId": auth.user?.profile.sub, "recipientId": allMessages[0].contact.accountID, "text": currentMessage});
+      sendMessage({
+        action: "sendMessage",
+        senderId: auth.user?.profile.sub,
+        recipientId: allMessages[0].contact.accountID,
+        text: currentMessage
+      });
       setCurrentMessage("");
     }
   };
 
   useEffect(() => {
-    const fetchMessages = async () => {
-      // Send a request to the server to fetch the messages
-      const message = { type: "getMessages" };
-      socket.send(JSON.stringify(message));
-    };
-
-    if (socket && socket.readyState === WebSocket.OPEN) {
-      fetchMessages();
-    }
-
-    return () => {
-      // Clean up the effect if needed
-    };
-  }, [socket]);
-  
+    const user = auth.user;
+    dispatch(GetAllMessages({ apiBaseUrl, user }));
+  }, [apiBaseUrl, auth, dispatch]);
 
   return (
-    <Card raised sx={{ height: "80vh", borderRadius: "25px"}}>
+    <Card raised sx={{ height: "80vh", borderRadius: "25px" }}>
       <CardContent>
         <Grid container>
           <Grid item xs={3} sm={3} md={3} lg={3}>
             <List component="nav" aria-label="Previous Messages">
               <ListItem
-                  sx={{
-                    borderBottom: `2px solid ${theme.palette.lightGray.main}`
-                  }}
-                >
-                  <Typography variant="h5">Conversations</Typography>
+                sx={{
+                  borderBottom: `2px solid ${theme.palette.lightGray.main}`
+                }}
+              >
+                <Typography variant="h5">Conversations</Typography>
               </ListItem>
-              <Tabs 
-                orientation="vertical" 
-                centered 
-                sx={{ ml: 5 }} 
+              <Tabs
+                orientation="vertical"
+                centered
+                sx={{ ml: 5 }}
                 value={value}
                 onChange={handleChange}
-                TabIndicatorProps={{ style: { background: "transparent", height: "30%" } }}
+                TabIndicatorProps={{
+                  style: { background: "transparent", height: "30%" }
+                }}
               >
                 {allMessages.map((messages, index) => {
+                  const firstMessage = messages.messageHistory[0];
+
                   return (
-                    <Tab 
+                    <Tab
+                      key={index}
                       label={
                         <ListItem
                           sx={{
@@ -154,7 +154,10 @@ const MessagingScreen = () => {
                         >
                           <StyledBadge
                             overlap="circular"
-                            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                            anchorOrigin={{
+                              vertical: "bottom",
+                              horizontal: "right"
+                            }}
                             variant="dot"
                           >
                             <Avatar
@@ -164,18 +167,39 @@ const MessagingScreen = () => {
                           </StyledBadge>
                           <Grid container sx={{ ml: 4 }}>
                             <Grid item xs={12} sm={12} md={12} lg={12}>
-                              <Typography variant="subtitle1" sx={{ color: value === index ? theme.palette.coastalBlue.main : null}}>
+                              <Typography
+                                variant="subtitle1"
+                                sx={{
+                                  color:
+                                    value === index
+                                      ? theme.palette.coastalBlue.main
+                                      : null
+                                }}
+                              >
                                 {messages.contact.name}
                                 <br />
-                                {messages.messageHistory[messages.messageHistory.length - 1].timestamp}
+                                {firstMessage &&
+                                  new Date(
+                                    firstMessage.timestamp
+                                  ).toLocaleString()}
                               </Typography>
-                              <Typography variant="subtitle2" sx={{ color: value === index ? theme.palette.coastalBlue.main : null}}>
-                                {messages.messageHistory[messages.messageHistory.length - 1].message.length > 25 ? messages.messageHistory[messages.messageHistory.length - 1].message.slice(0, 25) + "..." : messages.messageHistory[messages.messageHistory.length - 1].message}
+                              <Typography
+                                variant="subtitle2"
+                                sx={{
+                                  color:
+                                    value === index
+                                      ? theme.palette.coastalBlue.main
+                                      : null
+                                }}
+                              >
+                                {firstMessage && firstMessage.text.length > 25
+                                  ? `${firstMessage.text.slice(0, 25)}...`
+                                  : firstMessage && firstMessage.text}
                               </Typography>
                             </Grid>
                           </Grid>
                         </ListItem>
-                      } 
+                      }
                       {...a11yProps(index)}
                     />
                   );
@@ -189,7 +213,10 @@ const MessagingScreen = () => {
             sm={9}
             md={9}
             lg={9}
-            sx={{ borderLeft: `2px solid ${theme.palette.lightGray.main}`, height: "80vh" }}
+            sx={{
+              borderLeft: `2px solid ${theme.palette.lightGray.main}`,
+              height: "80vh"
+            }}
           >
             <Box sx={{ ml: 5 }}>
               {allMessages.map((messages, index) => {
@@ -199,7 +226,10 @@ const MessagingScreen = () => {
                       <Toolbar>
                         <StyledBadge
                           overlap="circular"
-                          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                          anchorOrigin={{
+                            vertical: "bottom",
+                            horizontal: "right"
+                          }}
                           variant="dot"
                         >
                           <Avatar
@@ -209,7 +239,9 @@ const MessagingScreen = () => {
                         </StyledBadge>
                         <Grid container sx={{ ml: 4 }}>
                           <Grid item xs={12} sm={12} md={12} lg={12}>
-                            <Typography variant="subtitle1">{messages.contact.name}</Typography>
+                            <Typography variant="subtitle1">
+                              {messages.contact.name}
+                            </Typography>
                           </Grid>
                         </Grid>
                       </Toolbar>
@@ -219,59 +251,102 @@ const MessagingScreen = () => {
                         return message.sender === "You" ? (
                           <Grid container justifyContent="flex-end">
                             <Grid item xs={5} />
-                            <Grid item xs={1.5} sx={{ color: `${theme.palette.silver.main}`}}>
-                              {message.timestamp}
+                            <Grid
+                              item
+                              xs={1.5}
+                              sx={{ color: `${theme.palette.silver.main}` }}
+                            >
+                              {new Date(message.timestamp).toLocaleString()}
                             </Grid>
                             <Grid item xs={3.75}>
-                              <Typography variant="body" sx={{ mr: 5, transform: "translateY(20%)" }}>
+                              <Typography
+                                variant="body"
+                                sx={{ mr: 5, transform: "translateY(20%)" }}
+                              >
                                 {message.message}
                               </Typography>
                             </Grid>
                             <Grid item xs={1} sx={{ ml: 1 }}>
                               <StyledBadge
                                 overlap="circular"
-                                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                                anchorOrigin={{
+                                  vertical: "bottom",
+                                  horizontal: "right"
+                                }}
                                 variant="dot"
                               >
-                                <Avatar alt={message.sender} src={messages.contact.profilePicture} />
+                                <Avatar
+                                  alt={message.sender}
+                                  src={messages.contact.profilePicture}
+                                />
                               </StyledBadge>
                             </Grid>
                           </Grid>
                         ) : (
-                          <Grid container justifyContent="flex-start" sx={{ mt: 5 }}>
+                          <Grid
+                            container
+                            justifyContent="flex-start"
+                            sx={{ mt: 5 }}
+                          >
                             <Grid item xs={0.5}>
                               <StyledBadge
                                 overlap="circular"
-                                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                                anchorOrigin={{
+                                  vertical: "bottom",
+                                  horizontal: "right"
+                                }}
                                 variant="dot"
                               >
-                                <Avatar alt={message.sender} src={messages.contact.profilePicture} />
+                                <Avatar
+                                  alt={message.sender}
+                                  src={messages.contact.profilePicture}
+                                />
                               </StyledBadge>
                             </Grid>
                             <Grid item xs={4.5} sx={{ ml: 3 }}>
-                              <Typography variant="body" sx={{ transform: "translateY(20%)" }}>
+                              <Typography
+                                variant="body"
+                                sx={{ transform: "translateY(20%)" }}
+                              >
                                 {message.message}
                               </Typography>
                             </Grid>
-                            <Grid item xs={1.5} sx={{ color: `${theme.palette.silver.main}`}}>
-                              {message.timestamp}
+                            <Grid
+                              item
+                              xs={1.5}
+                              sx={{ color: `${theme.palette.silver.main}` }}
+                            >
+                              {new Date(message.timestamp).toLocaleString()}
                             </Grid>
                             <Grid item xs={5} />
                           </Grid>
                         );
                       })}
-                      <Grid item xs={12} sx={{ position: "absolute", bottom: "5%", width: "49%" }}>
+                      <Grid
+                        item
+                        xs={12}
+                        sx={{
+                          position: "absolute",
+                          bottom: "5%",
+                          width: "49%"
+                        }}
+                      >
                         <TextField
                           fullWidth
                           label="Message the Host"
                           value={currentMessage}
                           onChange={(e) => setCurrentMessage(e.target.value)}
                           InputProps={{
-                            endAdornment: <InputAdornment position="end" onClick={handleSendMessage}>
-                              <SendIcon sx={{ fontSize: 40 }}/>
-                            </InputAdornment>,
+                            endAdornment: (
+                              <InputAdornment
+                                position="end"
+                                onClick={handleSendMessage}
+                              >
+                                <SendIcon sx={{ fontSize: 40 }} />
+                              </InputAdornment>
+                            )
                           }}
-                        />              
+                        />
                       </Grid>
                     </Grid>
                   </TabPanel>
