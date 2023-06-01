@@ -14,6 +14,8 @@ import Host from "./Screens/Host/Host";
 import CreateListing from "./Screens/Host/CreateListing";
 import Explore from "./Screens/Explore/ExplorePage";
 import IndividualListing from "./Screens/IndividualListing/IndividualListing";
+import MessagingScreen from "./Screens/Customer/MessagingScreen";
+import CustomerHome from "./Screens/Customer/CustomerHome";
 
 const onSigninCallback = (user) => {
   const previousLocation = user.state?.location || "/";
@@ -37,7 +39,7 @@ const oidcConfig = {
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <Provider store={reduxStore}>
       <AuthProvider {...oidcConfig}>
         <BrowserRouter>
@@ -50,12 +52,13 @@ root.render(
               <Route path="listing/:listingID" element={<IndividualListing />} />
               <Route path="host" element={<Host />} />
               <Route path="createListing" element={<CreateListing />} />
+              <Route path="accountSettings" element={<CustomerHome />} />
             </Route>
           </Routes>
         </BrowserRouter>
       </AuthProvider>
     </Provider>
-  </React.StrictMode>
+  // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
