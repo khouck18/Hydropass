@@ -24,7 +24,7 @@ const TabPanel = (props) => {
       >
         {value === index && (
           <Box sx={{ p: 3 }}>
-            <Typography>{children}</Typography>
+            <Typography component="span">{children}</Typography>
           </Box>
         )}
       </Box>
@@ -94,7 +94,7 @@ const CustomerHome = () => {
                                         label={
                                             <Grid container alignItems="center">
                                                 {item.icon}
-                                                <Typography variant="h5" sx={{ color: value === index ? theme.palette.white.main : theme.palette.white.main }}>
+                                                <Typography component="span" variant="h5" sx={{ color: value === index ? theme.palette.white.main : theme.palette.white.main }}>
                                                     {item.name}
                                                 </Typography>
                                             </Grid>

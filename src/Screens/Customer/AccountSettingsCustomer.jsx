@@ -16,8 +16,8 @@ const AccountSettingsCustomer = () => {
   return (
     <Card>
       <CardContent>
-        <Typography variant="h5">Account Settings</Typography>
-        <Typography variant="subtitle">
+        <Typography variant="h5" component="span">Account Settings</Typography>
+        <Typography variant="subtitle1" component="span">
           Hydropass collects this information to keep you and our hosts safe
         </Typography>
         <Grid container sx={{ mt: 3 }}>

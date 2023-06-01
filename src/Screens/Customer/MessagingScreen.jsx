@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect, useRef, useLayoutEffect } from "react";
 import {
   Box,
   AppBar,
@@ -66,7 +66,7 @@ const TabPanel = (props) => {
     >
       {value === index && (
         <Box sx={{ pt: 3, pb: 3 }}>
-          <Typography>{children}</Typography>
+          <Typography component="span">{children}</Typography>
         </Box>
       )}
     </Box>
@@ -95,6 +95,8 @@ const MessagingScreen = () => {
   const [currentMessage, setCurrentMessage] = useState("");
   const allMessages = useSelector((state) => state.customer.messages);
   const { socket, sendMessage } = useWebsocket();
+  const containerRef = useRef(null);
+  const textFieldRef = useRef(null);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -105,7 +107,7 @@ const MessagingScreen = () => {
       sendMessage({
         action: "sendMessage",
         senderId: auth.user?.profile.sub,
-        recipientId: allMessages[0].contact.accountID,
+        recipientId: allMessages[0].contact.accountId,
         text: currentMessage
       });
       setCurrentMessage("");
@@ -116,6 +118,27 @@ const MessagingScreen = () => {
     const user = auth.user;
     dispatch(GetAllMessages({ apiBaseUrl, user }));
   }, [apiBaseUrl, auth, dispatch]);
+
+  const formatDate = (timestamp) => {
+    const date = new Date(timestamp);
+  
+    const options = {
+      month: "numeric",
+      day: "numeric",
+      year: "2-digit",
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true
+    };
+  
+    return date.toLocaleString("en-US", options);
+  };
+
+  useLayoutEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.scrollTo(0, containerRef.current.scrollHeight);
+    }
+  }, [allMessages]);
 
   return (
     <Card raised sx={{ height: "80vh", borderRadius: "25px" }}>
@@ -128,7 +151,7 @@ const MessagingScreen = () => {
                   borderBottom: `2px solid ${theme.palette.lightGray.main}`
                 }}
               >
-                <Typography variant="h5">Conversations</Typography>
+                <Typography variant="h5" component="span">Conversations</Typography>
               </ListItem>
               <Tabs
                 orientation="vertical"
@@ -141,8 +164,8 @@ const MessagingScreen = () => {
                 }}
               >
                 {allMessages.map((messages, index) => {
-                  const firstMessage = messages.messageHistory[0];
-
+                  const firstMessage = messages.messageHistory[messages.messageHistory.length-1];
+                  
                   return (
                     <Tab
                       key={index}
@@ -175,16 +198,27 @@ const MessagingScreen = () => {
                                       ? theme.palette.coastalBlue.main
                                       : null
                                 }}
+                                component="span"
                               >
-                                {messages.contact.name}
-                                <br />
-                                {firstMessage &&
-                                  new Date(
-                                    firstMessage.timestamp
-                                  ).toLocaleString()}
+                                {messages.contact.name}    
+                                <br />                   
                               </Typography>
                               <Typography
                                 variant="subtitle2"
+                                sx={{
+                                  color:
+                                    value === index
+                                      ? theme.palette.coastalBlue.main
+                                      : null
+                                }}
+                                component="span"
+                              >
+                                {firstMessage && formatDate(firstMessage.timestamp)}
+                                <br />
+                              </Typography>
+                              <Typography
+                                variant="subtitle2"
+                                component="span"
                                 sx={{
                                   color:
                                     value === index
@@ -221,7 +255,7 @@ const MessagingScreen = () => {
             <Box sx={{ ml: 5 }}>
               {allMessages.map((messages, index) => {
                 return (
-                  <TabPanel value={value} index={index}>
+                  <TabPanel value={value} index={index} key={index}>
                     <AppBar position="static" color="transparent">
                       <Toolbar>
                         <StyledBadge
@@ -239,31 +273,30 @@ const MessagingScreen = () => {
                         </StyledBadge>
                         <Grid container sx={{ ml: 4 }}>
                           <Grid item xs={12} sm={12} md={12} lg={12}>
-                            <Typography variant="subtitle1">
+                            <Typography variant="subtitle1" component="span">
                               {messages.contact.name}
                             </Typography>
                           </Grid>
                         </Grid>
                       </Toolbar>
                     </AppBar>
-                    <Grid container sx={{ mt: 5 }}>
-                      {messages.messageHistory.map((message) => {
-                        return message.sender === "You" ? (
-                          <Grid container justifyContent="flex-end">
+                    <Box sx={{ maxHeight: "55vh", overflow: "auto", mt: 5 }} ref={containerRef}>
+                      {messages.messageHistory.map((message, index) => {                   
+                        return message.sender_id === auth.user?.profile.sub ? (
+                          <Grid container justifyContent="flex-end" sx={{ mt: 3 }} key={index}>
                             <Grid item xs={5} />
-                            <Grid
-                              item
-                              xs={1.5}
-                              sx={{ color: `${theme.palette.silver.main}` }}
-                            >
-                              {new Date(message.timestamp).toLocaleString()}
-                            </Grid>
-                            <Grid item xs={3.75}>
+                            <Grid item xs={5.25} sx={{backgroundColor: `${theme.palette.darkBlue.main}`, borderRadius: "25px", px: 3, pt: 1}}>
                               <Typography
                                 variant="body"
                                 sx={{ mr: 5, transform: "translateY(20%)" }}
+                                component="span"
                               >
-                                {message.message}
+                                <Box sx={{ color: `${theme.palette.paleBlue.main}` }}>
+                                {formatDate(message.timestamp)}
+                                </Box>
+                                <Box sx={{ color: `${theme.palette.white.main}` }}>
+                                  {message.text}
+                                </Box>
                               </Typography>
                             </Grid>
                             <Grid item xs={1} sx={{ ml: 1 }}>
@@ -276,7 +309,7 @@ const MessagingScreen = () => {
                                 variant="dot"
                               >
                                 <Avatar
-                                  alt={message.sender}
+                                  alt={message.sender_id}
                                   src={messages.contact.profilePicture}
                                 />
                               </StyledBadge>
@@ -286,7 +319,8 @@ const MessagingScreen = () => {
                           <Grid
                             container
                             justifyContent="flex-start"
-                            sx={{ mt: 5 }}
+                            sx={{ mt: 3 }}
+                            key={index}
                           >
                             <Grid item xs={0.5}>
                               <StyledBadge
@@ -298,30 +332,31 @@ const MessagingScreen = () => {
                                 variant="dot"
                               >
                                 <Avatar
-                                  alt={message.sender}
+                                  alt={message.sender_id}
                                   src={messages.contact.profilePicture}
                                 />
                               </StyledBadge>
                             </Grid>
-                            <Grid item xs={4.5} sx={{ ml: 3 }}>
+                            <Grid item xs={5.25} sx={{backgroundColor: `${theme.palette.silver.main}`, borderRadius: "25px", px: 3, pt: 1, ml: 3}}>
                               <Typography
                                 variant="body"
-                                sx={{ transform: "translateY(20%)" }}
+                                sx={{ mr: 5, transform: "translateY(20%)" }}
+                                component="span"
                               >
-                                {message.message}
+                                <Box sx={{ color: `${theme.palette.white.main}` }}>
+                                {formatDate(message.timestamp)}
+                                </Box>
+                                <Box sx={{ color: `${theme.palette.white.main}`}}>
+                                  {message.text}
+                                </Box>
                               </Typography>
-                            </Grid>
-                            <Grid
-                              item
-                              xs={1.5}
-                              sx={{ color: `${theme.palette.silver.main}` }}
-                            >
-                              {new Date(message.timestamp).toLocaleString()}
                             </Grid>
                             <Grid item xs={5} />
                           </Grid>
                         );
                       })}
+                    </Box>
+                      
                       <Grid
                         item
                         xs={12}
@@ -348,7 +383,6 @@ const MessagingScreen = () => {
                           }}
                         />
                       </Grid>
-                    </Grid>
                   </TabPanel>
                 );
               })}
