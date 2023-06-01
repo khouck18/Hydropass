@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  Box,
   Button,
   Card,
   CardContent,
@@ -8,7 +7,6 @@ import {
   TextField,
   Typography
 } from "@mui/material";
-import { useSelector } from "react-redux";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SaveIcon from "@mui/icons-material/Save";
 
@@ -16,7 +14,9 @@ const AccountSettingsCustomer = () => {
   return (
     <Card>
       <CardContent>
-        <Typography variant="h5" component="span">Account Settings</Typography>
+        <Typography variant="h5" component="span">
+          Account Settings
+        </Typography>
         <Typography variant="subtitle1" component="span">
           Hydropass collects this information to keep you and our hosts safe
         </Typography>

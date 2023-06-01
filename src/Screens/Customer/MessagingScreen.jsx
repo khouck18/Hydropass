@@ -1,4 +1,10 @@
-import { useState, useContext, useEffect, useRef, useLayoutEffect } from "react";
+import {
+  useState,
+  useContext,
+  useEffect,
+  useRef,
+  useLayoutEffect
+} from "react";
 import {
   Box,
   AppBar,
@@ -23,6 +29,7 @@ import { useSelector, useDispatch } from "react-redux";
 import AuthContext from "../../Contexts/AuthContext";
 import { useWebsocket } from "../../Contexts/WebsocketContext";
 import { GetAllMessages } from "./CustomerActions";
+import { customerActions } from "./CustomerSlice";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -94,9 +101,9 @@ const MessagingScreen = () => {
   const [value, setValue] = useState(0);
   const [currentMessage, setCurrentMessage] = useState("");
   const allMessages = useSelector((state) => state.customer.messages);
+  const newMessages = useSelector((state) => state.customer.newMessages);
   const { socket, sendMessage } = useWebsocket();
   const containerRef = useRef(null);
-  const textFieldRef = useRef(null);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -107,7 +114,7 @@ const MessagingScreen = () => {
       sendMessage({
         action: "sendMessage",
         senderId: auth.user?.profile.sub,
-        recipientId: allMessages[0].contact.accountId,
+        recipientId: allMessages[value].contact.accountId,
         text: currentMessage
       });
       setCurrentMessage("");
@@ -119,9 +126,39 @@ const MessagingScreen = () => {
     dispatch(GetAllMessages({ apiBaseUrl, user }));
   }, [apiBaseUrl, auth, dispatch]);
 
+  useEffect(() => {
+    allMessages?.forEach((message) => {
+      if (
+        newMessages !== [] &&
+        message.contact.accountId === newMessages[0]?.contact
+      ) {
+        const updatedMessageHistory = [
+          ...message.messageHistory,
+          {
+            sender_id: newMessages[0].message.sender,
+            text: newMessages[0].message.message,
+            timestamp: newMessages[0].message.timestamp
+            // type: newMessages[0].message.type
+          }
+        ];
+        dispatch(
+          customerActions.updateMessages({
+            accountId: newMessages[0].contact,
+            updatedMessageHistory: updatedMessageHistory
+          })
+        );
+        dispatch(
+          customerActions.createNewMessage(
+            newMessages.length >= 2 ? newMessages.shift() : []
+          )
+        );
+      }
+    });
+  }, [newMessages, allMessages, dispatch]);
+
   const formatDate = (timestamp) => {
     const date = new Date(timestamp);
-  
+
     const options = {
       month: "numeric",
       day: "numeric",
@@ -130,7 +167,7 @@ const MessagingScreen = () => {
       minute: "numeric",
       hour12: true
     };
-  
+
     return date.toLocaleString("en-US", options);
   };
 
@@ -151,7 +188,9 @@ const MessagingScreen = () => {
                   borderBottom: `2px solid ${theme.palette.lightGray.main}`
                 }}
               >
-                <Typography variant="h5" component="span">Conversations</Typography>
+                <Typography variant="h5" component="span">
+                  Conversations
+                </Typography>
               </ListItem>
               <Tabs
                 orientation="vertical"
@@ -164,8 +203,9 @@ const MessagingScreen = () => {
                 }}
               >
                 {allMessages.map((messages, index) => {
-                  const firstMessage = messages.messageHistory[messages.messageHistory.length-1];
-                  
+                  const firstMessage =
+                    messages.messageHistory[messages.messageHistory.length - 1];
+
                   return (
                     <Tab
                       key={index}
@@ -200,8 +240,8 @@ const MessagingScreen = () => {
                                 }}
                                 component="span"
                               >
-                                {messages.contact.name}    
-                                <br />                   
+                                {messages.contact.name}
+                                <br />
                               </Typography>
                               <Typography
                                 variant="subtitle2"
@@ -213,7 +253,8 @@ const MessagingScreen = () => {
                                 }}
                                 component="span"
                               >
-                                {firstMessage && formatDate(firstMessage.timestamp)}
+                                {firstMessage &&
+                                  formatDate(firstMessage.timestamp)}
                                 <br />
                               </Typography>
                               <Typography
@@ -280,21 +321,44 @@ const MessagingScreen = () => {
                         </Grid>
                       </Toolbar>
                     </AppBar>
-                    <Box sx={{ maxHeight: "55vh", overflow: "auto", mt: 5 }} ref={containerRef}>
-                      {messages.messageHistory.map((message, index) => {                   
+                    <Box
+                      sx={{ maxHeight: "55vh", overflow: "auto", mt: 5 }}
+                      ref={containerRef}
+                    >
+                      {messages.messageHistory.map((message, index) => {
                         return message.sender_id === auth.user?.profile.sub ? (
-                          <Grid container justifyContent="flex-end" sx={{ mt: 3 }} key={index}>
+                          <Grid
+                            container
+                            justifyContent="flex-end"
+                            sx={{ mt: 3 }}
+                            key={index}
+                          >
                             <Grid item xs={5} />
-                            <Grid item xs={5.25} sx={{backgroundColor: `${theme.palette.darkBlue.main}`, borderRadius: "25px", px: 3, pt: 1}}>
+                            <Grid
+                              item
+                              xs={5.25}
+                              sx={{
+                                backgroundColor: `${theme.palette.darkBlue.main}`,
+                                borderRadius: "25px",
+                                px: 3,
+                                pt: 1
+                              }}
+                            >
                               <Typography
                                 variant="body"
                                 sx={{ mr: 5, transform: "translateY(20%)" }}
                                 component="span"
                               >
-                                <Box sx={{ color: `${theme.palette.paleBlue.main}` }}>
-                                {formatDate(message.timestamp)}
+                                <Box
+                                  sx={{
+                                    color: `${theme.palette.paleBlue.main}`
+                                  }}
+                                >
+                                  {formatDate(message.timestamp)}
                                 </Box>
-                                <Box sx={{ color: `${theme.palette.white.main}` }}>
+                                <Box
+                                  sx={{ color: `${theme.palette.white.main}` }}
+                                >
                                   {message.text}
                                 </Box>
                               </Typography>
@@ -337,16 +401,30 @@ const MessagingScreen = () => {
                                 />
                               </StyledBadge>
                             </Grid>
-                            <Grid item xs={5.25} sx={{backgroundColor: `${theme.palette.silver.main}`, borderRadius: "25px", px: 3, pt: 1, ml: 3}}>
+                            <Grid
+                              item
+                              xs={5.25}
+                              sx={{
+                                backgroundColor: `${theme.palette.silver.main}`,
+                                borderRadius: "25px",
+                                px: 3,
+                                pt: 1,
+                                ml: 3
+                              }}
+                            >
                               <Typography
                                 variant="body"
                                 sx={{ mr: 5, transform: "translateY(20%)" }}
                                 component="span"
                               >
-                                <Box sx={{ color: `${theme.palette.white.main}` }}>
-                                {formatDate(message.timestamp)}
+                                <Box
+                                  sx={{ color: `${theme.palette.white.main}` }}
+                                >
+                                  {formatDate(message.timestamp)}
                                 </Box>
-                                <Box sx={{ color: `${theme.palette.white.main}`}}>
+                                <Box
+                                  sx={{ color: `${theme.palette.white.main}` }}
+                                >
                                   {message.text}
                                 </Box>
                               </Typography>
@@ -356,33 +434,33 @@ const MessagingScreen = () => {
                         );
                       })}
                     </Box>
-                      
-                      <Grid
-                        item
-                        xs={12}
-                        sx={{
-                          position: "absolute",
-                          bottom: "5%",
-                          width: "49%"
+
+                    <Grid
+                      item
+                      xs={12}
+                      sx={{
+                        position: "absolute",
+                        bottom: "5%",
+                        width: "49%"
+                      }}
+                    >
+                      <TextField
+                        fullWidth
+                        label="Message the Host"
+                        value={currentMessage}
+                        onChange={(e) => setCurrentMessage(e.target.value)}
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment
+                              position="end"
+                              onClick={handleSendMessage}
+                            >
+                              <SendIcon sx={{ fontSize: 40 }} />
+                            </InputAdornment>
+                          )
                         }}
-                      >
-                        <TextField
-                          fullWidth
-                          label="Message the Host"
-                          value={currentMessage}
-                          onChange={(e) => setCurrentMessage(e.target.value)}
-                          InputProps={{
-                            endAdornment: (
-                              <InputAdornment
-                                position="end"
-                                onClick={handleSendMessage}
-                              >
-                                <SendIcon sx={{ fontSize: 40 }} />
-                              </InputAdornment>
-                            )
-                          }}
-                        />
-                      </Grid>
+                      />
+                    </Grid>
                   </TabPanel>
                 );
               })}

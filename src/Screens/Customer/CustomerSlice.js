@@ -2,22 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import { GetAllMessages } from "./CustomerActions";
 
 const initialState = {
-  messages: [
-    // {
-    //     contact: {
-    //         name: "Not weo",
-    //         profilePicture: "/static/images/avatar/1.jpg",
-    //         accountID: "6b3003fa-9164-41a5-afca-d73d5b993690"
-    //     },
-    //     messageHistory: [
-    //         {
-    //             sender: "",
-    //             message: "",
-    //             timestamp: ""
-    //         },
-    //     ]
-    // },
-  ],
+  messages: [],
+  newMessages: [],
   userInformation: {
     firstName: "",
     lastName: "",
@@ -36,6 +22,34 @@ export const customerSlice = createSlice({
   name: "customer",
   initialState,
   reducers: {
+    createNewMessage: (state, action) => {
+      if (action.payload.length === 0) {
+        state.newMessages = [];
+      } else {
+        const newMessageArray = state.newMessages;
+        state.newMessages = [
+          ...newMessageArray,
+          {
+            contact: action.payload.message.recipient_id,
+            message: {
+              sender: action.payload.message.sender_id,
+              message: action.payload.message.text,
+              timestamp: action.payload.message.created_at,
+              type: action.payload.type
+            }
+          }
+        ];
+      }
+    },
+    updateMessages: (state, action) => {
+      const { accountId, updatedMessageHistory } = action.payload;
+      const messageToUpdate = state.messages.find(
+        (message) => message.contact.accountId === accountId
+      );
+      if (messageToUpdate) {
+        messageToUpdate.messageHistory = updatedMessageHistory;
+      }
+    }
   },
   extraReducers: (builder) => {
     builder
